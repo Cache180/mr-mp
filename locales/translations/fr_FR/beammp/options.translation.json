@@ -32,7 +32,7 @@
   "ui.options.beammp.debugOutput": "Afficher l'activité réseau dans la console",
   "ui.options.beammp.launcherPort": "Port du lanceur : [br]Ne le modifiez pas sauf si vous y êtes absolument obligé",
   "ui.options.beammp.launcherPortWarn": "Ne changez pas à moins d'y être obligé.",
-  "ui.options.beammp.launcherPortDefaultPort": "La valeur par défaut est 4444",
+  "ui.options.beammp.launcherPortDefaultPort": "La valeur par défaut est 4464",
   "ui.options.beammp.launcherPort.tooltip": "Définissez cette valeur sur le port personnalisé que le lanceur a été configuré pour utiliser",
   "ui.options.beammp.clearLauncherCache": "Videz le cache des mods du lanceur",
   "ui.options.beammp.clearLauncherCache.tooltip": "Activer cette option effacera le cache des mods actuellement téléchargés par le lanceur. Vous devrez alors télécharger à nouveau tous les mods pour chaque serveur auquel vous vous connecterez",
@@ -65,7 +65,7 @@
   "ui.options.beammp.shortenNametags": "Raccourcir les noms et rôles d'utilisateur",
   "ui.options.beammp.shortenNametags.tooltip": "Réduire les noms et rôles des joueurs trop longs.",
   "ui.options.beammp.showAdvancedOptions": "Afficher les options avancées",
-  "ui.options.beammp.showAdvancedOptions.tooltip": "Afficher tous les paramètres BeamMP",
+  "ui.options.beammp.showAdvancedOptions.tooltip": "Afficher tous les paramètres MR Multiplayer",
   "ui.options.beammp.tuneBlobColors": "Ajuster les couleurs",
   "ui.options.beammp.tuneBlobColorsHelp": "Valeur de couleur HEX (ex : #FF6400)",
   "ui.options.beammp.tuneColorQueued": "Véhicule en file d'attente",
@@ -83,7 +83,7 @@
   "ui.options.beammp.refreshIngame": "Autoriser la mise à jour de la liste des serveurs en jeu",
   "ui.options.beammp.refreshIngame.tooltip": "Autoriser ou non l'actualisation de la liste des serveurs pendant une session. L'activation de cette option peut entraîner des pics de latence.",
   "ui.options.beammp.useUiAppRedesign": "Style d'application HUD",
-  "ui.options.beammp.useUiAppRedesign.tooltip": "Choisissez le style visuel des applications HUD de BeamMP.",
+  "ui.options.beammp.useUiAppRedesign.tooltip": "Choisissez le style visuel des applications HUD de MR Multiplayer.",
   "ui.options.beammp.useUiAppRedesign.redesign": "Nouveau",
   "ui.options.beammp.useUiAppRedesign.old": "Original"
 }

@@ -19,7 +19,7 @@ const { state } = useBeamMPState()
 const MOD_ROOT = "/ui/ui-vue/mods/BeamMP"
 
 // title for the button and tabs
-const TITLE = "BeamMP"
+const TITLE = "MR Multiplayer"
 const TITLE_translationId = 'ui.common.beammp.title'
 
 // 1 and 2. Register a Main Menu button. `addButton` is a function.
@@ -59,7 +59,7 @@ async function registerRoutes() {
   )
   if (!result?.success) {
     window.bngRoutes.remove([ROUTE_SOURCE_ID])
-    console.error("Failed to register BeamMP route", result?.errors)
+    console.error("Failed to register MR Multiplayer route", result?.errors)
   }
   return result
 }

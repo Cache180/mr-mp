@@ -2,7 +2,7 @@
   <section class="direct-wrap">
     <header class="direct-header">
       <h2>{{ $tt("ui.common.beammp.direct_connect") }}</h2>
-      <p>Connect to a BeamMP server using its address and port.</p>
+      <p>Connect to a server using its address and port.</p>
     </header>
 
     <div class="direct-card">
@@ -70,7 +70,7 @@ async function connect() {
 async function favorite() {
  let ipFav = ip.value || "127.0.0.1"
  let portFav = port.value || "30814"
-  bngVue.toastr.success(`Adding ${ipFav}:${portFav} to favorites`, "BeamMP")
+  bngVue.toastr.success(`Adding ${ipFav}:${portFav} to favorites`, "MR Multiplayer")
   addFavorite({
     ip: ipFav,
     port: portFav,

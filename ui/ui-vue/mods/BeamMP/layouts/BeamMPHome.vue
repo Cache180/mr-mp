@@ -5,8 +5,8 @@
         <span class="eyebrow">{{ $tt('ui.common.beammp.beammp') }}</span>
         <h1>Multiplayer</h1>
         <p>
-          Discover servers, catch up on the latest BeamMP news, and jump back into the community.
-          This is the landing page for the BeamMP mod inside BeamNG's Vue UI.
+          Discover servers, catch up on the latest news, and jump back into the community.
+          This is the landing page for the MR Multiplayer mod inside BeamNG's Vue UI.
         </p>
 
         <div class="hero-actions">
@@ -39,7 +39,6 @@
       <article class="card news-panel">
         <div class="section-head">
           <h2>News & Changelog</h2>
-          <BngButton accent="secondary" @click="openDocs">Patch notes</BngButton>
         </div>
 
         <div class="feed-list">
@@ -57,7 +56,6 @@
       <article class="card events-panel">
         <div class="section-head">
           <h2>Events</h2>
-          <BngButton accent="secondary" @click="openForum">Community</BngButton>
         </div>
 
         <div class="event-list">
@@ -88,10 +86,6 @@
             <strong>Host or Join Direct</strong>
             <span>Enter an IP and port, or save a custom favorite.</span>
           </button>
-          <button class="quick-link" @click="openDocs">
-            <strong>Setup & Help</strong>
-            <span>Read docs, rules, and troubleshooting guides.</span>
-          </button>
         </div>
       </article>
     </section>
@@ -110,13 +104,13 @@ import {
 import { useBeamMPState } from "../shared/beammpState.js"
 
 const router = useRouter()
-const { openExternal, state } = useBeamMPState()
+const { state } = useBeamMPState()
 
 const newsItems = [
   {
     tag: "Release",
     date: "Latest",
-    title: "BeamMP UI Home is now live",
+    title: "MR Multiplayer home is now live",
     body: "The new homepage collects the most common multiplayer entry points into one place.",
   },
   {
@@ -129,7 +123,7 @@ const newsItems = [
     tag: "News",
     date: "Community",
     title: "Server browsing and hosting are highlighted",
-    body: "Use the homepage to get directly into the browser, direct connect, or help docs.",
+    body: "Use the homepage to get directly into the browser or direct connect.",
   },
 ]
 
@@ -137,7 +131,7 @@ const events = [
   {
     date: "Weekend",
     title: "Community cruise night",
-    body: "Jump into freeroam servers and share screenshots with the BeamMP community.",
+    body: "Jump into freeroam servers and share screenshots with the community.",
   },
   {
     date: "Weekly",
@@ -156,14 +150,6 @@ function gotoTiles() {
 
 function gotoDirectConnect() {
   router.push({ name: BEAMMP_DIRECT_ROUTE_NAME })
-}
-
-function openForum() {
-  openExternal("https://forum.beammp.com")
-}
-
-function openDocs() {
-  openExternal("https://docs.beammp.com")
 }
 </script>
 

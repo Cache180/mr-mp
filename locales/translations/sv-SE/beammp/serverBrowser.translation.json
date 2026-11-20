@@ -11,7 +11,7 @@
   "ui.beammp.serverBrowser.modSecurityWarning.no_return": "Avbryt och gå tillbaka",
   "ui.beammp.serverBrowser.modSecurityWarning.accept_proceed": "Ladda ner och gå med",
   "ui.beammp.serverBrowser.modSecurityWarning.title": "Servermoddar upptäckta",
-  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "Servern du ansluter till har moddar som laddas ner och installeras automatiskt. Dessa moddar kan innehålla kod som körs på din dator och skulle kunna vara skadlig. Se till att du litar på serverns ägare innan du fortsätter. Om du litar på att moddarna inte är skadliga kan du fortsätta på egen risk. BeamMP ansvarar inte för något innehåll som laddas ner från denna server. Denna varning kan inaktiveras i inställningarna.",
+  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "Servern du ansluter till har moddar som laddas ner och installeras automatiskt. Dessa moddar kan innehålla kod som körs på din dator och skulle kunna vara skadlig. Se till att du litar på serverns ägare innan du fortsätter. Om du litar på att moddarna inte är skadliga kan du fortsätta på egen risk. MR Multiplayer ansvarar inte för något innehåll som laddas ner från denna server. Denna varning kan inaktiveras i inställningarna.",
   "ui.beammp.serverBrowser.filters.filterOptions": "Sökfilter",
   "ui.beammp.serverBrowser.filters.resetFilters": "Återställ filter",
   "ui.beammp.serverBrowser.filters.playerCountMin": "Minsta antal spelare",
@@ -44,5 +44,5 @@
   "ui.beammp.serverBrowser.server.tags": "Taggar:",
   "ui.beammp.serverBrowser.server.modsTotalFilesize": "Total filstorlek:",
   "ui.beammp.serverBrowser.server.unknownMods": "Okänd modlista",
-  "ui.beammp.serverBrowser.download.done": "Klart — Sitter du fast på den här skärmen? Prova dessa steg: https://docs.beammp.com/FAQ/Clearing-mods/ och om det inte hjälper, kontakta oss på BeamMPs Discord eller forum."
+  "ui.beammp.serverBrowser.download.done": ""
 }

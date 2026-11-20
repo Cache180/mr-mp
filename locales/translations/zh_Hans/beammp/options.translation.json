@@ -32,7 +32,7 @@
   "ui.options.beammp.debugOutput": "在控制台显示网络活动",
   "ui.options.beammp.launcherPort": "启动器端口：[br]除非有必要，请勿修改",
   "ui.options.beammp.launcherPortWarn": "除非必要，否则不要改变。",
-  "ui.options.beammp.launcherPortDefaultPort": "默认端口4444",
+  "ui.options.beammp.launcherPortDefaultPort": "默认端口4464",
   "ui.options.beammp.launcherPort.tooltip": "将此设置为启动器所设置使用的自定义端口。",
   "ui.options.beammp.clearLauncherCache": "清除启动器模组缓存",
   "ui.options.beammp.clearLauncherCache.tooltip": "启用此选项将清除启动器当前已下载的模组缓存。执行此操作后，您需要在每次加入服务器时重新下载所有模组。",
@@ -65,7 +65,7 @@
   "ui.options.beammp.shortenNametags": "缩短名称标签和角色标签",
   "ui.options.beammp.shortenNametags.tooltip": "截短较长的玩家名称和角色标签",
   "ui.options.beammp.showAdvancedOptions": "显示高级选项喵",
-  "ui.options.beammp.showAdvancedOptions.tooltip": "显示所有BeamMP设置喵",
+  "ui.options.beammp.showAdvancedOptions.tooltip": "显示所有MR Multiplayer设置喵",
   "ui.options.beammp.tuneBlobColors": "调整颜色",
   "ui.options.beammp.tuneBlobColorsHelp": "HEX 颜色值（例如：#FF6400）",
   "ui.options.beammp.tuneColorQueued": "排队中的车辆",
@@ -83,7 +83,7 @@
   "ui.options.beammp.refreshIngame": "允许在游戏内刷新服务器列表",
   "ui.options.beammp.refreshIngame.tooltip": "是否允许在联机过程中刷新服务器列表。启用此选项可能导致短暂卡顿。",
   "ui.options.beammp.useUiAppRedesign": "HUD App 风格",
-  "ui.options.beammp.useUiAppRedesign.tooltip": "选择 BeamMP HUD 应用的视觉样式。",
+  "ui.options.beammp.useUiAppRedesign.tooltip": "选择 MR Multiplayer HUD 应用的视觉样式。",
   "ui.options.beammp.useUiAppRedesign.redesign": "重新设计",
   "ui.options.beammp.useUiAppRedesign.old": "旧版"
 }

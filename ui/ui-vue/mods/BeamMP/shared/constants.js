@@ -8,6 +8,12 @@ export const BEAMMP_SERVERS_ROUTE_NAME = "menu.beammp.servers"
 export const BEAMMP_CURRENT_SERVER_ROUTE_NAME = "menu.beammp.current-server"
 export const BEAMMP_DIRECT_ROUTE_NAME = "menu.beammp.direct"
 
+// Nombre de piloto: misma regla que el launcher y el server (3-20 caracteres, solo [A-Za-z0-9_.-]).
+export const PILOT_NAME_PATTERN = /^[A-Za-z0-9_.-]{3,20}$/
+export const PILOT_NAME_HELP = "3 a 20 caracteres: letras, numeros, guion, guion bajo y punto"
+export const PILOT_NAME_ERROR = "Nombre invalido (3-20 caracteres: letras, numeros, _ . -)"
+export const LOGIN_FAILED_MESSAGE = "No se pudo entrar"
+
 export const BEAMMP_TEXT_STYLE_MAP = {
   '^0': 'color-0',
   '^1': 'color-1',

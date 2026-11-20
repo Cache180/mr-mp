@@ -12,7 +12,7 @@
   "ui.options.beammp.playerlistLeftclick.tooltip": "Oyuncu listesindeki bir oyuncu ismine sol tıklayınca ne yapılacağını seçin",
   "ui.options.beammp.luaOptimisations": "Araç optimizasyonlarını etkinleştir",
   "ui.options.beammp.nameTags": "Oyuncu isim etiketlerini gizle",
-  "ui.options.beammp.launcherPortDefaultPort": "Varsayılan: 4444",
+  "ui.options.beammp.launcherPortDefaultPort": "Varsayılan: 4464",
   "ui.options.beammp.tuneColorQueued": "Kuyrukta bekleyen araç",
   "ui.options.beammp.experimental": "Deneysel",
   "ui.options.beammp.useUiAppRedesign.old": "Eski"

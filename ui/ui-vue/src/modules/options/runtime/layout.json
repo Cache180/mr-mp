@@ -4818,10 +4818,6 @@
                   "value": 1
                 },
                 {
-                  "label": "ui.apps.beammp.playerlist.openProfile",
-                  "value": 2
-                },
-                {
                   "label": "ui.apps.beammp.playerlist.deleteAllVehicles",
                   "value": 3
                 },

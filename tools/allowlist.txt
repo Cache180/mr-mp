@@ -22,6 +22,47 @@ lua/ge/extensions/MPConfig.lua                          # valor por defecto del 
 settings/mp_defaults.json                               # registro del ajuste launcherPort -> mrLauncherPort
 ui/ui-vue/src/modules/options/runtime/layout.json       # el campo "Launcher port" del menu debe editar mrLauncherPort
 
+# --- Task 10: pantalla de entrada (nombre de piloto) y marca MR ---
+# Entrada y terminos (vista de nombre de piloto, aviso de licencia en lugar de ToS)
+ui/ui-vue/mods/BeamMP/views/BeamMPLoginView.vue
+ui/ui-vue/mods/BeamMP/views/BeamMPTOSView.vue
+ui/ui-vue/mods/BeamMP/layouts/BeamMPMain.vue        # logo de texto, "Cambiar nombre", fuera enlaces a servicios de BeamMP
+ui/ui-vue/mods/BeamMP/layouts/BeamMPHome.vue        # textos (pagina sin ruta) y fuera enlaces a foro/docs
+ui/ui-vue/mods/BeamMP/shared/constants.js           # regla del nombre de piloto y textos
+ui/ui-vue/mods/BeamMP/shared/beammpState.js         # login(name) -> N:{"name":..}; mensaje del launcher
+# Textos visibles con marca fuera de la lista original del brief (solo cadenas, sin tocar identificadores)
+ui/ui-vue/mods/BeamMP/index.js                      # titulo del boton/pestana del menu
+ui/ui-vue/mods/BeamMP/routes.js                     # titulo de la ruta
+ui/ui-vue/mods/BeamMP/views/BeamMPCurrentServerView.vue
+ui/ui-vue/mods/BeamMP/views/BeamMPDirectView.vue
+ui/ui-vue/mods/BeamMP/cards/BeamMPPauseMainCard.vue
+ui/ui-vue/mods/BeamMP/cards/BeamMPPausePlayersCard.vue   # ademas: fuera el boton "Open profile" (enlazaba al foro de BeamMP)
+# Locales: solo valores (las claves no cambian; lo comprueba la revision)
+locales/translations/*/beammp/*.translation.json
+# Apps de HUD: nombre/descripcion visibles y textos de accesibilidad
+ui/modules/apps/BeamMP-*/app.json
+ui/modules/apps/BeamMP-Chat/app.html
+ui/modules/apps/BeamMP-Chat2/app.vue
+ui/modules/apps/BeamMP-PlayerList/app.html          # fuera el boton "Open profile" (enlace al foro de BeamMP)
+ui/modules/apps/BeamMP-PlayerList/app.js            # idem: fuera viewPlayer() y su enlace al foro; textos de consola
+ui/modules/apps/BeamMP-PlayerList2/app.vue          # idem
+settings/ui_apps/layouts/default/beammp.uilayout.json   # titulo visible del layout de apps
+# (ui/ui-vue/src/modules/options/runtime/layout.json ya esta arriba: tambien se quita la opcion "Open profile" del clic izquierdo)
+# Imagenes con marca de BeamMP o de terceros: se BORRAN (R18). Una a una, no por patron.
+ui/assets/BeamMP/beammp.png
+ui/assets/BeamMP/beammp_new_cropped.png
+ui/assets/BeamMP/icons/Digital-Patreon-Logo_White.png
+ui/assets/BeamMP/icons/PATREON_SYMBOL_1_WHITE_RGB.svg
+ui/assets/BeamMP/icons/icon_clyde_white_RGB.svg
+ui/assets/BeamMP/icons/github-mark.svg
+ui/ui-vue/mods/BeamMP/icons/Digital-Patreon-Logo_White.png
+ui/ui-vue/mods/BeamMP/icons/PATREON_SYMBOL_1_WHITE_RGB.svg
+ui/ui-vue/mods/BeamMP/icons/icon_clyde_white_RGB.svg
+ui/ui-vue/mods/BeamMP/icons/github-mark.svg
+ui/modules/apps/BeamMP-Chat/app.png                 # vista previa con "BeamMP Chat" incrustado
+ui/modules/apps/BeamMP-PlayerList/app.png           # idem "BeamMP Player List"
+ui/modules/apps/BeamMP-Session/app.png              # idem "BeamMP Session"
+
 # --- Tareas previas y guardianes (R2) ---
 NOTICE-MR.md                            # aviso de origen/licencia
 .github/workflows/**                    # package.yml propio; workflows upstream eliminados

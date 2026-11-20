@@ -26,20 +26,8 @@
         </span>
       </div>
 
-      <div class="patreon-banner" :class="{ 'patreon-banner--ea': isEARole }">
-        <div class="patreon-content">
-          <img src="/ui/assets/BeamMP/icons/PATREON_SYMBOL_1_WHITE_RGB.svg" alt="Patreon" class="patreon-icon" />
-          <div class="patreon-text">
-            <span class="patreon-message" :style="{ color: isEARole ? '#9333eaeb' : '' }">{{ isEARole ? $tt("ui.beammp.patreon.message.ea") : $tt("ui.beammp.patreon.message.user") }}</span>
-          </div>
-        </div>
-        <BngButton class="patreon-button" accent="secondary" :style="{ visibility: isEARole ? 'hidden' : 'visible' }" @click="openExternal('https://www.patreon.com/BeamMP')">
-          {{ $tt("ui.common.beammp.readMore") }}
-        </BngButton>
-      </div>
-
       <div class="topbar-tools">
-        <section v-if="state.loggedIn.value" class="account-panel" :style="{ backgroundColor: isSpecialRole ? accountRoleColor : 'rgba(0, 0, 0, 0.35)' }" aria-label="BeamMP account">
+        <section v-if="state.loggedIn.value" class="account-panel" :style="{ backgroundColor: isSpecialRole ? accountRoleColor : 'rgba(0, 0, 0, 0.35)' }" aria-label="Piloto">
           <img
             class="account-avatar"
             :src="accountAvatar"
@@ -51,12 +39,9 @@
             <div class="account-name-wrapper">
               <strong>{{ accountName }}</strong>
             </div>
-            <div v-if="accountId" class="account-id-wrapper" @click="copyAccountId" :title="$tt('ui.beammp.accounts.copyid')">
-              <span class="account-id">ID: {{ accountId }}</span>
-            </div>
           </div> 
           <BngButton accent="destructive" class="logout-button" @click="handleLogout"> 
-            {{ $tt("ui.beammp.accounts.logout") }}
+            Cambiar nombre
           </BngButton>
         </section>
       </div>
@@ -64,7 +49,9 @@
 
     <main class="main-grid" :style="{ marginBottom: infobarMarginBottom }">
       <aside class="sidebar">
-        <img src="/ui/assets/BeamMP/beammp_new_cropped.png" alt="BeamMP" class="logo" />
+        <div class="logo" role="img" aria-label="MR Multiplayer">
+          <span class="logo-mark">MR</span> Multiplayer
+        </div>
         <div class="beammp-version">
           <span aria-hidden="true" />
           {{ $tt("ui.common.beammp.beammp") }} v{{ state.beammpMetrics.value.beammpGameVer }}
@@ -79,35 +66,6 @@
         <button class="nav-btn" :class="{ active: route.name === BEAMMP_DIRECT_ROUTE_NAME }" @click="gotoRoute(BEAMMP_DIRECT_ROUTE_NAME)">{{ $tt("ui.common.beammp.direct_connect") }}</button>
         <!--<button class="nav-btn" :class="{ active: route.name === BEAMMP_TILES_ROUTE_NAME }" @click="gotoRoute(BEAMMP_TILES_ROUTE_NAME)">Tiles</button>-->
 
-        <div class="spacer" />
-
-        <button 
-          class="nav-btn secondary external-link external-link--patreon" 
-          :class="{ 'external-link--patreon-ea': isEARole }"
-          @click="openExternal('https://www.patreon.com/BeamMP')"
-        >
-          <img src="/ui/assets/BeamMP/icons/PATREON_SYMBOL_1_WHITE_RGB.svg" alt="" class="external-link-icon" />
-          <span class="external-link-copy">
-            <span class="external-link-title">{{ $tt("ui.common.beammp.patreon") }}</span>
-            <small class="external-link-subtitle">{{ isEARole ? $tt("ui.beammp.patreon.message.ea") : $tt("ui.beammp.patreon.message.user") }}</small>
-          </span>
-        </button>
-        <button class="nav-btn secondary external-link" @click="openExternal('https://forum.beammp.com')">
-          <img src="/ui/ui-vue/src/assets/fonts/bngIcons/svg/chatBubble.svg" alt="" class="external-link-icon external-link-icon--invert" />
-          <span>{{ $tt("ui.common.beammp.forum") }}</span>
-        </button>
-        <button class="nav-btn secondary external-link" @click="openExternal('https://discord.gg/BeamMP')">
-          <img src="/ui/assets/BeamMP/icons/icon_clyde_white_RGB.svg" alt="" class="external-link-icon" />
-          <span>{{ $tt("ui.common.beammp.discord") }}</span>
-        </button>
-        <button class="nav-btn secondary external-link" @click="openExternal('https://docs.beammp.com')">
-          <img src="/ui/ui-vue/src/assets/fonts/bngIcons/svg/info.svg" alt="" class="external-link-icon external-link-icon--invert" />
-          <span>{{ $tt("ui.common.beammp.docs") }}</span>
-        </button>
-        <button class="nav-btn secondary external-link" @click="openExternal('https://github.com/BeamMP/')">
-          <img src="/ui/assets/BeamMP/icons/github-mark.svg" alt="" class="external-link-icon" />
-          <span>{{ $tt("ui.common.beammp.github") }}</span>
-        </button>
       </aside>
 
       <section ref="contentPanel" class="content">
@@ -190,7 +148,6 @@ const {
   closeLoadingOverlay,
   loadFavorites,
   logout,
-  openExternal,
   approveSecurityPrompt,
   rejectSecurityPrompt,
   refreshConnectionState,
@@ -244,9 +201,6 @@ const accountRole = computed(() => {
   const roleTag = state.auth.value?.roleInfo?.tag
   return roleTag.replace(/^\s*\[|\]\s*$/g, "").trim() || state.auth.value?.role
 })
-const accountId = computed(() => {
-  return state.auth.value?.id
-})
 const accountRoleColor = computed(() => {
   return state.auth.value?.color
 })
@@ -255,23 +209,10 @@ const isSpecialRole = computed(() => {
   return role !== "USER"
 })
 
-const isEARole = computed(() => {
-  const role = state.auth.value?.role || ""
-  return role === "EA" || role === "ET" || role === "MDEV" || role === "STAFF"
-})
-
 function useFallbackAvatar(event) {
   const image = event.currentTarget
   image.onerror = null
   image.src = fallbackAvatar
-}
-
-function copyAccountId() {
-  const id = state.auth.value?.id
-  if (id && /^\d+$/.test(id)) {
-    bngApi.engineLua(`setClipboard("${id}")`)
-    bngVue.toastr.info("Copied ID to clipboard", "BeamMP")
-  }
 }
 
 function updateInfobarMarginBottom() {
@@ -416,66 +357,6 @@ onBeforeUnmount(() => {
   }
 }
 
-.patreon-banner {
-  display: flex;
-  flex: 1;
-  min-width: 12rem;
-  align-items: center;
-  gap: 0;
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--bng-corners-2);
-  background: rgba(0, 0, 0, 0.35);
-  order: 2;
-  height: 100%;
-
-  &.patreon-banner--ea {
-    background: rgba(0, 0, 0, 0.35);
-  }
-
-  .patreon-content {
-    display: flex;
-    flex: 1;
-    min-width: 0;
-    align-items: center;
-    gap: 0.35rem;
-    justify-content: center;
-  }
-
-  .patreon-icon {
-    width: 1rem;
-    height: 1rem;
-    flex: 0 0 1rem;
-    object-fit: contain;
-    filter: brightness(1.6);
-  }
-
-  .patreon-text {
-    display: flex;
-    flex: 1;
-    min-width: 0;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .patreon-message {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .patreon-button {
-    flex: 0 0 auto;
-    font-size: 0.65rem;
-    padding: 0.3rem 0.5rem;
-    --bng-transition-speed: 0s;
-  }
-}
-
 .topbar-tools {
   display: flex;
   min-width: 0;
@@ -549,23 +430,6 @@ onBeforeUnmount(() => {
       font-size: 0.75rem;
     }
   }
-
-  .account-id-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0.1rem;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .account-id {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.55rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  }
 }
 
 .logout-button {
@@ -608,10 +472,18 @@ onBeforeUnmount(() => {
   background: rgba(0, 0, 0, 0.35);
 }
 
+// Logo provisional de texto (el definitivo lo decide Muertazos Racing).
 .logo {
-  width: 8.5rem;
   display: block;
   margin: 1rem auto;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.logo-mark {
+  color: var(--bng-orange-400);
 }
 
 .beammp-version {
@@ -674,10 +546,6 @@ onBeforeUnmount(() => {
   }
 }
 
-.secondary {
-  opacity: 0.9;
-}
-
 .back-button {
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--bng-off-white);
@@ -697,80 +565,6 @@ onBeforeUnmount(() => {
     outline: 0.12rem solid var(--bng-orange-500);
     outline-offset: 0.08rem;
   }
-}
-
-.external-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  .external-link-icon {
-    width: 1rem;
-    height: 1rem;
-    flex: 0 0 1rem;
-    object-fit: contain;
-  }
-
-  .external-link-icon--invert {
-    filter: contrast(0) brightness(2);
-  }
-
-  span {
-    line-height: 1;
-  }
-
-  .external-link-copy {
-    display: inline-flex;
-    min-width: 0;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.12rem;
-  }
-
-  .external-link-title {
-    font-weight: 600;
-    line-height: 1;
-  }
-
-  .external-link-subtitle {
-    color: var(--bng-cool-gray-300);
-    font-size: 0.68rem;
-    line-height: 1.2;
-    white-space: normal;
-  }
-}
-
-.external-link--patreon {
-  border-color: rgba(var(--bng-add-green-550-rgb), 0.92);
-  background: rgba(var(--bng-add-green-550-rgb), 0.2);
-
-  &:hover {
-    border-color: rgba(var(--bng-add-green-550-rgb), 1);
-    background: rgba(var(--bng-add-green-550-rgb), 0.32);
-  }
-
-  .external-link-subtitle {
-    color: var(--bng-add-green-200);
-  }
-
-  &.external-link--patreon-ea {
-    border-color: rgba(147, 51, 234, 0.92);
-    background: rgba(147, 51, 234, 0.2);
-
-    &:hover {
-      border-color: rgba(147, 51, 234, 1);
-      background: rgba(147, 51, 234, 0.32);
-    }
-
-    .external-link-subtitle {
-      color: rgba(216, 180, 254, 1);
-    }
-  }
-}
-
-.spacer {
-  flex: 1;
 }
 
 .content {
@@ -898,26 +692,6 @@ onBeforeUnmount(() => {
 @media (max-width: 1000px) {
   .topbar {
     flex-wrap: wrap;
-  }
-
-  .patreon-banner {
-    order: 1;
-    width: 100%;
-    min-width: 10rem;
-    max-width: none;
-
-    .patreon-title {
-      font-size: 0.65rem;
-    }
-
-    .patreon-message {
-      font-size: 0.85rem;
-    }
-
-    .patreon-button {
-      font-size: 0.6rem;
-      padding: 0.25rem 0.4rem;
-    }
   }
 
   .back-button {

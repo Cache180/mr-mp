@@ -90,9 +90,6 @@
 			<button type="button" @click="showPlayerInfo(contextMenu.player?.name)">
 				{{ $tt("ui.apps.beammp.playerlist.switchCameraTo") }}
 			</button>
-			<button type="button" @click="openProfile(contextMenu.player?.name)">
-				{{ $tt("ui.apps.beammp.playerlist.openProfile") }}
-			</button>
 			<button type="button" @click="restorePlayerVehicle(contextMenu.player?.name)">
 				{{ $tt("ui.apps.beammp.playerlist.restoreVehicles") }}
 			</button>
@@ -254,12 +251,6 @@ function showPlayerInfo(name) {
 	closeContextMenu()
 }
 
-function openProfile(name) {
-	if (!name) return closeContextMenu()
-	globalThis.openExternalLink?.(`https://forum.beammp.com/u/${name}/summary`)
-	closeContextMenu()
-}
-
 function restorePlayerVehicle(name) {
 	if (!name) return closeContextMenu()
 	api.engineLua(`MPVehicleGE.restorePlayerVehicle(${api.serializeToLua(String(name))})`)
@@ -284,9 +275,6 @@ function handlePrimaryAction(player) {
 			break
 		case 1:
 			showPlayerInfo(player.name)
-			break
-		case 2:
-			openProfile(player.name)
 			break
 		case 3:
 			deleteAllVehicles(player.name)

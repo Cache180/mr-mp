@@ -33,7 +33,7 @@ export const routeRecords = [
         //redirect: { name: BEAMMP_HOME_ROUTE_NAME },
         meta: {
           luaRoute: {
-            title: "BeamMP",
+            title: "MR Multiplayer",
             backTarget: "menu",
             scopeTree: { "beammp-route": {} },
           },

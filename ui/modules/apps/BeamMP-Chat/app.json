@@ -1,6 +1,6 @@
 {
   "domElement": "<beammp-chat></beammp-chat>",
-  "name": "BeamMP Chat",
+  "name": "MR Multiplayer Chat",
   "types": [
     "ui.apps.categories.beammp"
   ],
@@ -12,7 +12,7 @@
     "min-width": "320px",
     "min-height": "120px"
   },
-  "description": "Chat while in BeamMP servers",
+  "description": "Chat while in MR Multiplayer servers",
   "author": "BeamMP",
   "version": "2.0",
   "directive": "beammpChat",

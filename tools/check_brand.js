@@ -244,6 +244,15 @@ function checkJs(compiler, file) {
   collectScriptLiterals(compiler, readText(file), 0, file)
 }
 
+// ---------- Imagenes con marca (R18: no se redistribuye el logo de BeamMP ni marcas de terceros) ----------
+const BRAND_IMAGE_NAME = /(?:beammp|patreon|clyde|github-mark)[^/]*\.(?:png|svg|jpe?g|gif|webp|ico)$/i
+const BAKED_BRAND_IMAGE = /^ui\/modules\/apps\/[^/]+\/app\.png$/
+
+function checkImage(file) {
+  if (BRAND_IMAGE_NAME.test(file)) report(file, 0, "imagen con marca (logo de BeamMP o de terceros)", file)
+  else if (BAKED_BRAND_IMAGE.test(file)) report(file, 0, "vista previa de app con el nombre BeamMP incrustado", file)
+}
+
 // ---------- Recorrido ----------
 const compiler = loadCompiler()
 const files = trackedFiles()
@@ -256,6 +265,7 @@ for (const file of files) {
   else if (inScope(file) && file.endsWith(".vue")) checkVue(compiler, file)
   else if (/^ui\/modules\/apps\/.*\.html$/.test(file)) checkHtml(compiler, file)
   else if (inScope(file) && file.endsWith(".js")) checkJs(compiler, file)
+  else checkImage(file)
 }
 
 // Fail closed: si una categoria esta vacia el guardian no ha mirado nada y no puede aprobar.

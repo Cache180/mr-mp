@@ -59,6 +59,14 @@ jobs:
         if: ${{ !cancelled() }}
         run: bash tools/check_brand.sh
 
+      - name: Guard - changed JSON files parse
+        if: ${{ !cancelled() }}
+        run: bash tools/check_json.sh "$(cat tools/base-sha.txt)"
+
+      - name: Guard - changed Vue files compile
+        if: ${{ !cancelled() }}
+        run: bash tools/check_vue.sh "$(cat tools/base-sha.txt)"
+
       - name: Build MRMP.zip
         shell: bash
         run: |

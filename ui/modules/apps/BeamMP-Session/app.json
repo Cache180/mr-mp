@@ -1,6 +1,6 @@
 {
   "domElement": "<beammp-session></beammp-session>",
-  "name": "BeamMP Session",
+  "name": "MR Multiplayer Session",
   "types": [
     "ui.apps.categories.beammp"
   ],
@@ -10,7 +10,7 @@
   	"width": "700px",
     "height": "40px"
   },
-  "description": "Manage your BeamMP session, including server information, player count, and more.",
+  "description": "Manage your MR Multiplayer session, including server information, player count, and more.",
   "author": "BeamMP",
   "version": "1.1",
   "directive": "beammpSession"

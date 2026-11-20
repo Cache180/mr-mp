@@ -2,7 +2,7 @@
   <section class="current-server">
     <header class="page-header">
       <div>
-        <span class="eyebrow">Current BeamMP session</span>
+        <span class="eyebrow">Current MR Multiplayer session</span>
         <h2 v-if="serverTitle !== currentEndpoint" >{{ serverTitle }}</h2>
       </div>
       <span v-if="categoryLabel" class="category" :class="categoryClass">
@@ -15,7 +15,7 @@
     </div>
 
     <div v-else-if="!currentServer" class="status-panel status-panel--warning">
-      No active BeamMP server was reported.
+      No active server was reported.
     </div>
 
     <template v-else>

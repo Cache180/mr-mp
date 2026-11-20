@@ -11,7 +11,7 @@
   "ui.beammp.serverBrowser.modSecurityWarning.no_return": "取消并返回",
   "ui.beammp.serverBrowser.modSecurityWarning.accept_proceed": "下载并加入",
   "ui.beammp.serverBrowser.modSecurityWarning.title": "检测到服务器模组",
-  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "您正在加入的服务器包含模组，这些模组将自动下载并安装。模组可能包含会在您的电脑上运行的代码，并存在潜在安全风险。请在继续之前确认您信任服务器所有者。如果您确认这些模组安全，可以自行承担风险继续。BeamMP 不对从该服务器下载的任何内容负责。您可以在设置中禁用此警告。",
+  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "您正在加入的服务器包含模组，这些模组将自动下载并安装。模组可能包含会在您的电脑上运行的代码，并存在潜在安全风险。请在继续之前确认您信任服务器所有者。如果您确认这些模组安全，可以自行承担风险继续。MR Multiplayer 不对从该服务器下载的任何内容负责。您可以在设置中禁用此警告。",
   "ui.beammp.serverBrowser.filters.filterOptions": "搜索筛选器",
   "ui.beammp.serverBrowser.filters.resetFilters": "重设筛选器",
   "ui.beammp.serverBrowser.filters.playerCountMin": "最低玩家数量",
@@ -44,5 +44,5 @@
   "ui.beammp.serverBrowser.server.tags": "标签:",
   "ui.beammp.serverBrowser.server.modsTotalFilesize": "文件总大小:",
   "ui.beammp.serverBrowser.server.unknownMods": "未知模组列表",
-  "ui.beammp.serverBrowser.download.done": "完成——您卡在这个界面了喵？请先尝试以下步骤喵：https://docs.beammp.com/FAQ/Clearing-mods/ 如果仍无法解决，请前往 BeamMP Discord 社区或论坛联系我们。"
+  "ui.beammp.serverBrowser.download.done": ""
 }

@@ -1,5 +1,6 @@
 import { computed, ref } from "vue"
 import { useBridge } from "@/bridge"
+import { LOGIN_FAILED_MESSAGE, PILOT_NAME_ERROR, PILOT_NAME_PATTERN } from "./constants.js"
 
 // useBridge is a Vue composable, so initialise it from useBeamMPState() while
 // component setup is active, then retain its API for this shared state module.
@@ -76,6 +77,7 @@ const state = {
   launcherConnected: ref(false),
   loggedIn: ref(false),
   loginError: ref(""),
+  loginMessage: ref(""),
   auth: ref({}),
   beammpMetrics: ref({
     players: "...",
@@ -113,7 +115,7 @@ function luaCall(command) {
 
 function extensionInvocation(extensionName, methodName, args = "") {
   if (!LUA_IDENTIFIER_PATTERN.test(extensionName) || !LUA_IDENTIFIER_PATTERN.test(methodName)) {
-    throw new Error(`Invalid BeamMP extension call: ${extensionName}.${methodName}`)
+    throw new Error(`Invalid extension call: ${extensionName}.${methodName}`)
   }
 
   const callArgs = String(args || "").trim()
@@ -137,13 +139,13 @@ function notifyExtensionError(extensionName, methodName, error) {
   const message = `${operation} failed. ${detail}`
   const now = Date.now()
 
-  console.error(`[BeamMP] ${message}`)
+  console.error(`[MR] ${message}`)
   if (now - lastExtensionErrorNotificationAt < EXTENSION_ERROR_NOTIFICATION_COOLDOWN_MS) return
 
   lastExtensionErrorNotificationAt = now
   const notification = bridgeApi.serializeToLua({
     type: "error",
-    title: "BeamMP error",
+    title: "MR Multiplayer",
     msg: message,
     config: {
       closeButton: true,
@@ -476,23 +478,27 @@ async function connectToLauncher() {
   extensionCommand("MPCoreNetwork", "connectToLauncher")
 }
 
-async function login(username, password) {
-  state.loginError.value = ""
-  if (!username || !password) {
-    state.loginError.value = "Missing credentials"
-    return
-  }
-  const credentials = { username: username.trim(), password: password.trim() }
-  extensionCommand("MPCoreNetwork", "login", bridgeApi.serializeToLua(credentials))
+function isValidPilotName(name) {
+  return PILOT_NAME_PATTERN.test(String(name ?? "").trim())
 }
 
-async function guestLogin() {
+// Entra con un nombre de piloto: MPCoreNetwork.login envia `N:{"name":"<x>"}` al launcher, que contesta
+// con `N{"success":...,"message":...}` (llega por onBeamMPLoggedIn / onBeamMPLoginError).
+async function login(name) {
   state.loginError.value = ""
-  extensionCommand("MPCoreNetwork", "login")
+  state.loginMessage.value = ""
+  const pilotName = String(name ?? "").trim()
+  if (!isValidPilotName(pilotName)) {
+    state.loginError.value = PILOT_NAME_ERROR
+    return false
+  }
+  return extensionCommand("MPCoreNetwork", "login", bridgeApi.serializeToLua({ name: pilotName }))
 }
 
 async function logout() {
   extensionCommand("MPCoreNetwork", "logout")
+  state.loginError.value = ""
+  state.loginMessage.value = ""
   state.loggedIn.value = false
   state.auth.value = {}
 }
@@ -626,9 +632,10 @@ function ensureListeners(events) {
     }
   })
   events.on("LoadingInfo", payload => onLoadingInfo(payload))
-  events.on("onBeamMPLoggedIn", () => {
+  events.on("onBeamMPLoggedIn", data => {
     state.loggedIn.value = true
     state.loginError.value = ""
+    state.loginMessage.value = String(data || "")
     requestServerList()
   })
   events.on("onBeamMPLoginState", data => {
@@ -636,7 +643,8 @@ function ensureListeners(events) {
     if (state.loggedIn.value) requestServerList()
   })
   events.on("onBeamMPLoginError", data => {
-    state.loginError.value = String(data || "Login failed")
+    state.loginMessage.value = ""
+    state.loginError.value = String(data || LOGIN_FAILED_MESSAGE)
   })
   events.on("onBeamMPLauncherConnected", () => {
     state.launcherConnected.value = true
@@ -771,8 +779,8 @@ export function useBeamMPState(events) {
     extensionCommand,
     formatBytes,
     getLauncherVersion,
-    guestLogin,
     isFavorite,
+    isValidPilotName,
     isRecent,
     loadFavorites,
     login,

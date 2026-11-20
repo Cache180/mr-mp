@@ -40,7 +40,7 @@
           maxlength="500"
           autocomplete="off"
           placeholder="Chat here"
-          aria-label="BeamMP chat message"
+          aria-label="chat message"
           @focus="focusChat"
           @blur="blurChat"
           @keydown="onInputKeydown"

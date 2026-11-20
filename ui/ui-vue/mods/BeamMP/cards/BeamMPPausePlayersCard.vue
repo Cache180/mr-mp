@@ -21,14 +21,6 @@
         :title="$tt('ui.apps.beammp.playerlist.copyname')"
         @click="copyName(player.name)"
       />
-      <BngButton
-        class="player-action"
-        :accent="ACCENTS.menu"
-        :icon="icons.external"
-        :aria-label="$tt('ui.apps.beammp.playerlist.openProfile')"
-        :title="$tt('ui.apps.beammp.playerlist.openProfile')"
-        @click="openProfile(player.name)"
-      />
       </div>
     </div>
   </div>
@@ -71,11 +63,6 @@ function onPlayerPings(payload) {
 
 function copyName(name) {
   api.engineLua(`setClipboard(${api.serializeToLua(String(name || ""))})`)
-}
-
-function openProfile(name) {
-  const url = `https://forum.beammp.com/u/${name}/summary`
-  extensionCommand("MPCoreNetwork", "openURL", api.serializeToLua(url))
 }
 
 onMounted(() => {

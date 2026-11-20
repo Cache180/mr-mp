@@ -3,7 +3,7 @@
     <header class="card-header">
       <div>
         <h3>{{ $tt("ui.playmodes.multiplayer") }}</h3>
-        <p class="subtitle">BeamMP session controls</p>
+        <p class="subtitle">MR Multiplayer session controls</p>
       </div>
       <div class="identity">
         <span class="online-dot"></span>

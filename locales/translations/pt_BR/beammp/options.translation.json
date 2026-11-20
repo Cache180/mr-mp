@@ -32,7 +32,7 @@
     "ui.options.beammp.debugOutput": "Show network activity in the console",
     "ui.options.beammp.launcherPort": "Launcher port:[br]Don't change unless you have to",
     "ui.options.beammp.launcherPortWarn": "Don't change unless you have to",
-    "ui.options.beammp.launcherPortDefaultPort": "Default is 4444",
+    "ui.options.beammp.launcherPortDefaultPort": "Default is 4464",
     "ui.options.beammp.launcherPort.tooltip": "Set this to the custom port that the launcher was set to use.",
     "ui.options.beammp.clearLauncherCache": "Clear the launchers mod cache",
     "ui.options.beammp.clearLauncherCache.tooltip": "Enabling this will clear the currently download mod cache of the launcher. Doing this will result in you having to download all mods for each server you join again.",
@@ -65,7 +65,7 @@
     "ui.options.beammp.shortenNametags": "Shorten nametag and role tags",
     "ui.options.beammp.shortenNametags.tooltip": "Trim long player names and roles",
     "ui.options.beammp.showAdvancedOptions": "Show advanced options",
-    "ui.options.beammp.showAdvancedOptions.tooltip": "Display all BeamMP settings",
+    "ui.options.beammp.showAdvancedOptions.tooltip": "Display all MR Multiplayer settings",
     "ui.options.beammp.tuneBlobColors": "Tune colors",
     "ui.options.beammp.tuneBlobColorsHelp": "HEX color value (ex: #FF6400)",
     "ui.options.beammp.tuneColorQueued": "Queued vehicle",
@@ -83,7 +83,7 @@
     "ui.options.beammp.refreshIngame": "Allow the serverlist to refresh ingame",
     "ui.options.beammp.refreshIngame.tooltip": "Whether to allow the server list to refresh whilst in a session. Enabling this can cause lag spikes.",
     "ui.options.beammp.useUiAppRedesign": "HUD App Style",
-    "ui.options.beammp.useUiAppRedesign.tooltip": "Choose the visual style for BeamMP's HUD apps.",
+    "ui.options.beammp.useUiAppRedesign.tooltip": "Choose the visual style for MR Multiplayer's HUD apps.",
     "ui.options.beammp.useUiAppRedesign.redesign": "Redesign",
     "ui.options.beammp.useUiAppRedesign.old": "Old"
 }

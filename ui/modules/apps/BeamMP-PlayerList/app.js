@@ -8,7 +8,7 @@ var pingList = [];
 var nickname = "";
 var app = angular.module('beamng.apps');
 app.directive('beammpPlayerListAngular', [function () {
-	console.log("BeamMP Player List Directive initialized");
+	console.log("MR Multiplayer Player List Directive initialized");
 	return {
 		templateUrl: '/ui/modules/apps/BeamMP-PlayerList/app.html',
 		replace: true,
@@ -44,7 +44,7 @@ app.controller("BeamMPPlayerListController", ['$scope', '$filter', 'Settings', f
 	};
 
 	$scope.init = function() {
-		console.log("BeamMP Player List Controller initialized");
+		console.log("MR Multiplayer Player List Controller initialized");
 		// Set players list direction
 		setPLDirection(localStorage.getItem('plHorizontal'));
 		setPLDirection(localStorage.getItem('plVertical'));
@@ -191,9 +191,6 @@ app.controller("BeamMPPlayerListController", ['$scope', '$filter', 'Settings', f
 					case 1:
 						nameCell.setAttribute("onclick", "showPlayerInfo('"+parsedList[i].name+"')");
 						break;
-					case 2:
-						nameCell.setAttribute("onclick", "viewPlayer('"+parsedList[i].name+"')");
-						break;
 					case 3:
 						nameCell.onclick = function() {
 							bngApi.engineLua(`
@@ -251,11 +248,6 @@ app.controller("BeamMPPlayerListController", ['$scope', '$filter', 'Settings', f
 
 					document.getElementById("pl-context-SwitchCameraButton").onclick = function() {
 						showPlayerInfo(parsedList[i].name);
-						playerlistContextmenu.style.display = "none";
-					}
-
-					document.getElementById("pl-context-OpenProfileButton").onclick = function() {
-						viewPlayer(parsedList[i].name);
 						playerlistContextmenu.style.display = "none";
 					}
 
@@ -357,10 +349,6 @@ function clearPlayerList() {
 function teleportToPlayer(targetPlayerName) {
 	//console.log("teleportEvent: " + targetPlayerName);
 	//bngApi.engineLua('MPVehicleGE.teleportVehToPlayer("'+targetPlayerName+'")')
-}
-
-function viewPlayer(targetPlayerName) {
-	openExternalLink(`https://forum.beammp.com/u/${targetPlayerName}/summary`)
 }
 
 function restorePlayerVehicle(targetPlayerName){

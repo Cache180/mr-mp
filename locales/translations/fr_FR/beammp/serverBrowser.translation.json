@@ -11,7 +11,7 @@
   "ui.beammp.serverBrowser.modSecurityWarning.no_return": "Annulation et retour",
   "ui.beammp.serverBrowser.modSecurityWarning.accept_proceed": "Télécharger et rejoindre",
   "ui.beammp.serverBrowser.modSecurityWarning.title": "Serveur moddé détecté",
-  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "Le serveur que vous rejoignez utilise des mods, qui sont téléchargés et installés automatiquement. Ces mods peuvent contenir du code malveillant qui s'exécutera sur votre ordinateur. Veuillez vous assurer de la fiabilité du ou des propriétaires du serveur avant de continuer. Si vous êtes certain que les mods ne sont pas malveillants, vous pouvez continuer à vos risques et périls. BeamMP décline toute responsabilité quant au contenu téléchargé depuis ce serveur. Cet avertissement peut être désactivé dans les paramètres.",
+  "ui.beammp.serverBrowser.modSecurityWarning.prompt": "Le serveur que vous rejoignez utilise des mods, qui sont téléchargés et installés automatiquement. Ces mods peuvent contenir du code malveillant qui s'exécutera sur votre ordinateur. Veuillez vous assurer de la fiabilité du ou des propriétaires du serveur avant de continuer. Si vous êtes certain que les mods ne sont pas malveillants, vous pouvez continuer à vos risques et périls. MR Multiplayer décline toute responsabilité quant au contenu téléchargé depuis ce serveur. Cet avertissement peut être désactivé dans les paramètres.",
   "ui.beammp.serverBrowser.filters.filterOptions": "Filtres de recherche",
   "ui.beammp.serverBrowser.filters.resetFilters": "Réinitialiser les filtres",
   "ui.beammp.serverBrowser.filters.playerCount": "Nombre de joueurs",
@@ -45,5 +45,5 @@
   "ui.beammp.serverBrowser.server.tags": "Tags:",
   "ui.beammp.serverBrowser.server.modsTotalFilesize": "Taille totale des mods :",
   "ui.beammp.serverBrowser.server.unknownMods": "Liste de mods inconnue",
-  "ui.beammp.serverBrowser.download.done": "Terminé ! Vous êtes bloqué sur cet écran ? Essayez ces étapes : https://docs.beampp.com/FAQ/Clearing-mods/ et si cela ne fonctionne pas, contactez-nous sur le serveur Discord ou le forum de BeamMP."
+  "ui.beammp.serverBrowser.download.done": ""
 }
