@@ -77,4 +77,4 @@ setExtensionUnloadMode("MPControllerGE", "manual")
 load("MPHelpers")
 setExtensionUnloadMode("MPHelpers", "manual")
 
-extensions.core_input_categories.beammp = { order = 999, icon = "settings", title = "BeamMP", desc = "BeamMP Controls" } --inject BeamMP input category at bottom of input categories list
+extensions.core_input_categories.beammp = { order = 999, icon = "settings", title = "MR Multiplayer", desc = "Controles de MR Multiplayer" } --inject BeamMP input category at bottom of input categories list

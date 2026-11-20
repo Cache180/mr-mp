@@ -92,7 +92,7 @@ local windows = {
     playerList = playerListWindow,
 }
 
-local windowTitle = "BeamMP Chat"
+local windowTitle = "MR Multiplayer Chat"
 local currentWindow = windows.chat
 local lastSize = imgui.ImVec2(0, 0)
 local firstRender = true
@@ -329,9 +329,9 @@ local function renderWindow(dtRaw)
         if currentWindow == windows.chat then
             local msgCount = windows.chat.newMessageCount
             if msgCount > 0 then
-                windowTitle = "BeamMP Chat (" .. tostring(msgCount) .. ')'
+                windowTitle = "MR Multiplayer Chat (" .. tostring(msgCount) .. ')'
             else
-                windowTitle = "BeamMP Chat"
+                windowTitle = "MR Multiplayer Chat"
             end
         end
         -- Titlebar
@@ -370,7 +370,7 @@ local function renderWindow(dtRaw)
             imgui.SetCursorPosX(imgui.GetWindowWidth() - 40)
             if utils.imageButton(M.uiIcons.user.texId, 16) then
                 currentWindow = windows.playerList
-                windowTitle = "BeamMP Chat (Player List)"
+                windowTitle = "MR Multiplayer Chat (Player List)"
             end
 
             -- Settings
@@ -378,7 +378,7 @@ local function renderWindow(dtRaw)
             imgui.SetCursorPosX(imgui.GetWindowWidth() - 20)
             if utils.imageButton(M.uiIcons.settings.texId, 16) then
                 currentWindow = windows.options
-                windowTitle = "BeamMP Chat (Options)"
+                windowTitle = "MR Multiplayer Chat (Options)"
             end
         end
         imgui.EndChild()

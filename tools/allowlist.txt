@@ -63,6 +63,11 @@ ui/modules/apps/BeamMP-Chat/app.png                 # vista previa con "BeamMP C
 ui/modules/apps/BeamMP-PlayerList/app.png           # idem "BeamMP Player List"
 ui/modules/apps/BeamMP-Session/app.png              # idem "BeamMP Session"
 
+# --- Task 10b (R19): textos de pantalla en Lua, SOLO cadenas visibles ---
+lua/ge/extensions/UI.lua                                # SOLO los windowTitle del chat imgui (el id de imgui.Begin/registerWindow NO cambia)
+# (scripts/BeamMP/modScript.lua: titulo/desc de la categoria de controles; MPModManager.lua: titulo del aviso de mod incompatible; ya listados arriba)
+# MPVehicleGE.lua NO se toca: excepcion documentada en tools/check_brand.js
+
 # --- Tareas previas y guardianes (R2) ---
 NOTICE-MR.md                            # aviso de origen/licencia
 .github/workflows/**                    # package.yml propio; workflows upstream eliminados

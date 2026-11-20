@@ -263,7 +263,7 @@ local function onExtensionLoaded()
 			end
 			core_jobsystem.create(function(job)
 				job.sleep(8)
-				guihooks.trigger("toastrMsg", {type="error", title="BeamMP has detected an incompatible mod", msg="Possibly broken lua code has been found and disabled" .. message, config={closeButton=true, timeOut=0, extendedTimeOut=0}}) 
+				guihooks.trigger("toastrMsg", {type="error", title="MR Multiplayer has detected an incompatible mod", msg="Possibly broken lua code has been found and disabled" .. message, config={closeButton=true, timeOut=0, extendedTimeOut=0}}) 
 			end)
 			print("Possibly malicous lua code has been found and disabled" .. message)
 		end
