@@ -1,0 +1,28 @@
+# Copyright (C) 2026 Muertazos Racing
+# Licensed under AGPL-3.0 (or later), see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Lista blanca de mr-mp: unicos archivos que pueden diferir de upstream
+# (BeamMP, ver tools/base-sha.txt). Cualquier otro archivo modificado, anadido
+# o BORRADO respecto a esa base hace fallar tools/check_touched.sh.
+#
+# Formato: un patron por linea, relativo a la raiz del repo. "#" inicia un
+# comentario (de linea completa o al final de la linea). "*" y "**" casan con
+# cualquier cadena, "/" incluido (prefijos: "dir/**"). Lo usan tambien
+# tools/check_lua_syntax.sh (los .lua listados aqui se analizan sintacticamente).
+
+# --- Task 9: identidad y puerto del mod ---
+scripts/BeamMP/modScript.lua            # nombre de mod multiplayermrmp + avisos de version incompatible
+lua/ge/extensions/MPModManager.lua      # lista blanca de mods y excepcion de limpieza (multiplayermrmp)
+lua/ge/extensions/MPCoreNetwork.lua     # SOLO la linea del puerto del launcher (mrLauncherPort, 4464)
+lua/ge/extensions/MPGameNetwork.lua     # SOLO la linea del puerto del launcher (mrLauncherPort, 4464 + 1)
+
+# --- Task 9: dependencias funcionales del puerto fuera de la lista original ---
+lua/ge/extensions/MPConfig.lua                          # valor por defecto del ajuste launcherPort -> mrLauncherPort
+settings/mp_defaults.json                               # registro del ajuste launcherPort -> mrLauncherPort
+ui/ui-vue/src/modules/options/runtime/layout.json       # el campo "Launcher port" del menu debe editar mrLauncherPort
+
+# --- Tareas previas y guardianes (R2) ---
+NOTICE-MR.md                            # aviso de origen/licencia
+.github/workflows/**                    # package.yml propio; workflows upstream eliminados
+tools/**                                # guardianes de CI

@@ -18,6 +18,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Historial completo: check_touched compara contra la base upstream.
+          fetch-depth: 0
+
+      # Guardianes: corren ANTES de empaquetar; si uno falla, no se genera ni se publica ningun zip.
+      - name: Install Lua parser (luajit)
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y luajit
+          luajit -v
+
+      - name: Guard - only allowlisted files differ from upstream
+        run: bash tools/check_touched.sh "$(cat tools/base-sha.txt)"
+
+      - name: Guard - MR contract symbols still exported
+        run: bash tools/check_mr_contract.sh
+
+      - name: Guard - mod name, port and notices
+        run: bash tools/check_names.sh
+
+      - name: Guard - Lua syntax of allowlisted files
+        run: bash tools/check_lua_syntax.sh
 
       - name: Build MRMP.zip
         shell: bash
