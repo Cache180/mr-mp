@@ -6,6 +6,10 @@ on:
       - "mr-main"
   workflow_dispatch:
 
+concurrency:
+  group: ci-latest
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -39,6 +43,7 @@ jobs:
           if-no-files-found: error
 
       - name: Publish MRMP.zip to the rolling pre-release ci-latest
+        if: github.ref == 'refs/heads/mr-main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
