@@ -11,7 +11,7 @@ local M = {}
 
 local serverMods = {} -- multiplayerModName1, multiplayerModName2
 local serverModDisplayNames = {}
-local whitelist = {"multiplayerbeammp", "beammp", "translations"} -- these mods won't be activated or deactivated
+local whitelist = {"multiplayermrmp", "mrmp", "translations"} -- these mods won't be activated or deactivated
 local hasMods = false
 local deactivateMod = core_modmanager.deactivateMod
 
@@ -144,7 +144,7 @@ local function cleanUpSessionMods()
 	log('M', "cleanUpSessionMods", "Deleting all multiplayer mods")
 	local count = 0
 	for modname, mod in pairs(getModList()) do
-		if mod.dirname == "/mods/multiplayer/" and modname ~= "multiplayerbeammp" then
+		if mod.dirname == "/mods/multiplayer/" and modname ~= "multiplayermrmp" then
 			hasMods = true
 			count = count + 1
 			core_modmanager.deleteMod(modname)

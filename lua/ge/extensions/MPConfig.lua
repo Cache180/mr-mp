@@ -85,7 +85,7 @@ local defaultSettings = {
 
 	playerlistLeftclick = 0, -- 0 - queue events, 1 - switch camera, 2 - open forum, 3 - delete, 4 - restore, 5 - copy name
 
-	launcherPort = 4444
+	mrLauncherPort = 4464
 }
 
 local function loadMPDefaults()

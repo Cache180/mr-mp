@@ -8,13 +8,13 @@ local compatibleVersion = 40
 if majorVer ~= compatibleVersion then
 	log('W', 'versionCheck', 'BeamMP is incompatible with BeamNG.drive version '..beamng_versionb)
 	log('M', 'versionCheck', 'Deactivating BeamMP mod.')
-	core_modmanager.deactivateMod('multiplayerbeammp')
-	core_modmanager.deactivateMod('beammp')
+	core_modmanager.deactivateMod('multiplayermrmp')
+	core_modmanager.deactivateMod('mrmp')
 	if majorVer > compatibleVersion then
-		guihooks.trigger("toastrMsg", {type="error", title="Error loading BeamMP", msg="BeamMP is currently not compatible with BeamNG.drive version "..beamng_versionb..". Check the BeamMP Discord for updates."})
+		guihooks.trigger("toastrMsg", {type="error", title="Error al cargar MR Multiplayer", msg="MR Multiplayer aun no es compatible con BeamNG.drive "..beamng_versionb..". Revisa muertazosracing.com."})
 		log('W', 'versionCheck', 'BeamMP is currently not compatible with BeamNG.drive version '..beamng_versionb..'. Check the BeamMP Discord for updates.')
 	else
-		guihooks.trigger("toastrMsg", {type="error", title="Error loading BeamMP", msg="BeamMP is not compatible with BeamNG.drive version "..beamng_versionb.. ". Please update your game."})
+		guihooks.trigger("toastrMsg", {type="error", title="Error al cargar MR Multiplayer", msg="MR Multiplayer no es compatible con BeamNG.drive "..beamng_versionb..". Actualiza tu juego."})
 		log('W', 'versionCheck', 'BeamMP is not compatible with BeamNG.drive version '..beamng_versionb.. '. Please update your game.')
 	end
 	return

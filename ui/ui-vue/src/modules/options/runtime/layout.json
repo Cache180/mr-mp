@@ -5046,7 +5046,7 @@
           "version": "0.38",
           "label": "ui.options.beammp.launcherPort",
           "tooltip": "ui.options.beammp.launcherPort.tooltip",
-          "setting": "launcherPort",
+          "setting": "mrLauncherPort",
           "interactive": true,
           "condition_always_off": false,
           "condition_not_shipping": false,

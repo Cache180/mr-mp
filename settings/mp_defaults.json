@@ -27,7 +27,7 @@
   "showDebugOutput"             : [ "local" ],
   "enableNewChatMenu"           : [ "cloud", false ],
   "showAdvancedMPOptions"       : [ "cloud" ],
-  "launcherPort"                : [ "local", 4444 ],
+  "mrLauncherPort"              : [ "local", 4464 ],
   "queueApplySpeed"             : [ "cloud", 2 ],
   "filterInappropriateContent"  : [ "cloud", false ],
   "filterHate"                  : [ "cloud", false ],
