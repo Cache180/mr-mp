@@ -22,7 +22,8 @@ jobs:
           # Historial completo: check_touched compara contra la base upstream.
           fetch-depth: 0
 
-      # Guardianes: corren ANTES de empaquetar; si uno falla, no se genera ni se publica ningun zip.
+      # Guardianes: corren ANTES de empaquetar y se ejecutan todos aunque uno falle (para ver todos los
+      # fallos de una vez); si cualquiera falla, los pasos de empaquetado y publicacion se omiten.
       - name: Install Lua parser (luajit)
         run: |
           set -euo pipefail
@@ -34,12 +35,15 @@ jobs:
         run: bash tools/check_touched.sh "$(cat tools/base-sha.txt)"
 
       - name: Guard - MR contract symbols still exported
+        if: ${{ !cancelled() }}
         run: bash tools/check_mr_contract.sh
 
       - name: Guard - mod name, port and notices
+        if: ${{ !cancelled() }}
         run: bash tools/check_names.sh
 
       - name: Guard - Lua syntax of allowlisted files
+        if: ${{ !cancelled() }}
         run: bash tools/check_lua_syntax.sh
 
       - name: Build MRMP.zip
