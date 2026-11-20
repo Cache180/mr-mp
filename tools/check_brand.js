@@ -253,6 +253,32 @@ function checkImage(file) {
   else if (BAKED_BRAND_IMAGE.test(file)) report(file, 0, "vista previa de app con el nombre BeamMP incrustado", file)
 }
 
+// ---------- Textos visibles en Lua (R19): comprobacion DIRIGIDA, no un barrido de Lua ----------
+// El Lua esta lleno de identificadores internos (BeamMP en nombres de eventos, rutas, ids), asi que solo se
+// miran las lineas que fijan texto de pantalla. Cada localizador DEBE encontrar al menos una linea (fail closed).
+const LUA_DISPLAY_SITES = [
+  { file: "scripts/BeamMP/modScript.lua", what: "titulo/descripcion de la categoria de controles", find: /core_input_categories\.beammp\s*=/ },
+  { file: "lua/ge/extensions/MPModManager.lua", what: "aviso de mod incompatible", find: /"toastrMsg".*incompatible mod/ },
+  { file: "lua/ge/extensions/UI.lua", what: "titulo mostrado de la ventana de chat (windowTitle)", find: /^\s*(?:local\s+)?windowTitle\s*=/ },
+]
+// Excepciones documentadas: no se comprueban. MPVehicleGE.lua: aviso de funcion obsoleta para desarrolladores
+// (archivo central de sincronizacion; R19 prohibe tocarlo). El id de imgui "BeamMP Chat" (imgui.Begin /
+// registerWindow en UI.lua) es un identificador (posicion guardada de la ventana) y tampoco se comprueba.
+const LUA_EXEMPT = ["lua/ge/extensions/MPVehicleGE.lua"]
+
+function checkLuaDisplay(file, site) {
+  let hits = 0
+  readText(file).split("\n").forEach((line, i) => {
+    if (!site.find.test(line)) return
+    hits++
+    const code = line.replace(/\s--[^"']*$/, "")
+    for (const text of expressionLiterals(code)) {
+      if (PROSE.test(text)) report(file, i + 1, `texto visible de Lua (${site.what})`, text)
+    }
+  })
+  if (hits === 0) report(file, 0, "localizador de texto visible de Lua sin coincidencias (guardian en vacio)", site.what)
+}
+
 // ---------- Recorrido ----------
 const compiler = loadCompiler()
 const files = trackedFiles()
@@ -267,6 +293,8 @@ for (const file of files) {
   else if (inScope(file) && file.endsWith(".js")) checkJs(compiler, file)
   else checkImage(file)
 }
+
+for (const site of LUA_DISPLAY_SITES) checkLuaDisplay(site.file, site)
 
 // Fail closed: si una categoria esta vacia el guardian no ha mirado nada y no puede aprobar.
 for (const [name, count] of Object.entries(counts)) {
