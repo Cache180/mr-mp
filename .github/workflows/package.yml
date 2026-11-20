@@ -31,6 +31,15 @@ jobs:
           sudo apt-get install -y luajit
           luajit -v
 
+      # Herramienta de CI para los guardianes de UI (marca, JSON, Vue). Va a una carpeta temporal del runner,
+      # fuera del repo y del zip; version exacta fijada.
+      - name: Install Vue SFC compiler (CI tooling, not shipped)
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/vue-sfc" --no-audit --no-fund --ignore-scripts --no-save @vue/compiler-sfc@3.5.13
+          echo "MR_SFC_DIR=$RUNNER_TEMP/vue-sfc" >> "$GITHUB_ENV"
+          node -e 'console.log("compiler-sfc", require(require.resolve("@vue/compiler-sfc/package.json", { paths: [process.env.RUNNER_TEMP + "/vue-sfc"] })).version)'
+
       - name: Guard - only allowlisted files differ from upstream
         run: bash tools/check_touched.sh "$(cat tools/base-sha.txt)"
 
@@ -45,6 +54,10 @@ jobs:
       - name: Guard - Lua syntax of allowlisted files
         if: ${{ !cancelled() }}
         run: bash tools/check_lua_syntax.sh
+
+      - name: Guard - no visible BeamMP brand
+        if: ${{ !cancelled() }}
+        run: bash tools/check_brand.sh
 
       - name: Build MRMP.zip
         shell: bash
