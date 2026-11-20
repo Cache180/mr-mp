@@ -1,0 +1,36 @@
+name: Package mod
+
+on:
+  push:
+    branches:
+      - "mr-main"
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build MRMP.zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Only package paths that exist in the repo (e.g. LICENSE vs LICENSE.md).
+          items=()
+          for p in icons lua locales scripts settings ui vehicles LICENSE* NOTICES.md NOTICE-MR.md README.md; do
+            if [ -e "$p" ]; then items+=("$p"); else echo "skip (missing): $p"; fi
+          done
+          zip -r MRMP.zip "${items[@]}"
+          sha256sum MRMP.zip > MRMP.zip.sha256
+          cat MRMP.zip.sha256
+          unzip -l MRMP.zip | tail -n 1
+
+      - name: Archive MRMP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MRMP
+          path: |
+            MRMP.zip
+            MRMP.zip.sha256
+          if-no-files-found: error
