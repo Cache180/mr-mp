@@ -30,11 +30,13 @@ const SERVICE_URL = /beammp\.com|patreon\.com|github\.com\/beammp|discord\.gg\/b
 const STANDALONE = "(?<![A-Za-z0-9_\\/.-])BRAND(?![A-Za-z0-9_\\/-]|\\.[A-Za-z0-9_])"
 const STANDALONE_CS = new RegExp(STANDALONE.replace("BRAND", "(?:BeamMP|Beam MP|BEAMMP)"))
 const STANDALONE_CI = new RegExp(STANDALONE.replace("BRAND", "beam\\s?-?mp"), "i")
-// Atributos estaticos cuyo valor es texto que ve el jugador.
+// Atributos estaticos cuyo valor es texto que ve el jugador. Incluye "value" (texto de inputs/opciones)
+// y cualquier "data-*" (datos que suelen acabar en pantalla); estos ultimos se detectan por prefijo.
 const VISIBLE_ATTRS = new Set([
   "alt", "title", "placeholder", "aria-label", "label", "text", "message", "description",
-  "tooltip", "confirm-text", "cancel-text", "subtitle", "header",
+  "tooltip", "confirm-text", "cancel-text", "subtitle", "header", "value",
 ])
+const isVisibleAttr = name => VISIBLE_ATTRS.has(name) || name.startsWith("data-")
 // Atributos enlazados que son ganchos internos (clases, ids...), no texto.
 const HOOK_ARGS = new Set(["class", "style", "id", "key", "ref", "name", "for"])
 
@@ -159,7 +161,7 @@ function walkTemplate(file, node) {
         const propLine = prop.loc?.start?.line || line
         if (prop.type === 6) {
           const value = prop.value?.content || ""
-          if (VISIBLE_ATTRS.has(prop.name.toLowerCase())) {
+          if (isVisibleAttr(prop.name.toLowerCase())) {
             // Lo que va entre {{ }} es una expresion: se mira con la regla de literales (las claves de locales
             // como ui.beammp.x no son texto visible); el resto del valor es texto corrido.
             const interpolations = [...value.matchAll(/\{\{([\s\S]*?)\}\}/g)]
@@ -217,6 +219,19 @@ function checkTemplateSource(compiler, file, wrapped, label) {
   walkTemplate(file, descriptor.template.ast)
 }
 
+// Valores de la propiedad CSS content: (p. ej. content: "BeamMP") son texto que ve el jugador.
+function checkStyleContent(file, block) {
+  const base = block.loc.start.line - 1
+  const re = /content\s*:\s*(['"])((?:\\.|(?!\1)[^\\])*)\1/g
+  let match
+  while ((match = re.exec(block.content)) !== null) {
+    if (proseHit(match[2])) {
+      const line = base + block.content.slice(0, match.index).split("\n").length
+      report(file, line, "CSS content visible", match[2])
+    }
+  }
+}
+
 function checkVue(compiler, file) {
   const source = stripNotice(file, readText(file))
   const { descriptor, errors } = compiler.parse(source, PARSE_OPTIONS(file))
@@ -233,6 +248,7 @@ function checkVue(compiler, file) {
     counts.scripts++
     collectScriptLiterals(compiler, block.content, block.loc.start.line - 1, file)
   }
+  for (const style of descriptor.styles) checkStyleContent(file, style)
 }
 
 function checkHtml(compiler, file) {

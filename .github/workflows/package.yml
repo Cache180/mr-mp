@@ -13,6 +13,10 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  # Base upstream (BeamMP) de los guardianes de diff. Literal en el workflow, NO leido de tools/.
+  MR_BASE_SHA: d882321495ac78dc36442f915198a9e1c3ce176f
+
 jobs:
   package:
     runs-on: ubuntu-latest
@@ -41,7 +45,7 @@ jobs:
           node -e 'console.log("compiler-sfc", require(require.resolve("@vue/compiler-sfc/package.json", { paths: [process.env.RUNNER_TEMP + "/vue-sfc"] })).version)'
 
       - name: Guard - only allowlisted files differ from upstream
-        run: bash tools/check_touched.sh "$(cat tools/base-sha.txt)"
+        run: bash tools/check_touched.sh "$MR_BASE_SHA"
 
       - name: Guard - MR contract symbols still exported
         if: ${{ !cancelled() }}
@@ -61,15 +65,19 @@ jobs:
 
       - name: Guard - changed JSON files parse
         if: ${{ !cancelled() }}
-        run: bash tools/check_json.sh "$(cat tools/base-sha.txt)"
+        run: bash tools/check_json.sh "$MR_BASE_SHA"
 
       - name: Guard - changed Vue files compile
         if: ${{ !cancelled() }}
-        run: bash tools/check_vue.sh "$(cat tools/base-sha.txt)"
+        run: bash tools/check_vue.sh "$MR_BASE_SHA"
 
       - name: Guard - DOMPurify always behind its load wait
         if: ${{ !cancelled() }}
         run: bash tools/check_purify.sh
+
+      - name: Guard - license acceptance key and source-code link
+        if: ${{ !cancelled() }}
+        run: bash tools/check_tos.sh
 
       - name: Build MRMP.zip
         shell: bash
@@ -77,13 +85,18 @@ jobs:
           set -euo pipefail
           # Only package paths that exist in the repo (e.g. LICENSE vs LICENSE.md).
           items=()
-          for p in icons lua locales scripts settings ui vehicles LICENSE* NOTICES.md NOTICE-MR.md README.md; do
+          for p in icons lua locales scripts settings ui vehicles 3rd_party_licenses LICENSE* NOTICES.md NOTICE-MR.md README.md; do
             if [ -e "$p" ]; then items+=("$p"); else echo "skip (missing): $p"; fi
           done
           zip -r MRMP.zip "${items[@]}"
           sha256sum MRMP.zip > MRMP.zip.sha256
           cat MRMP.zip.sha256
           unzip -l MRMP.zip | tail -n 1
+          # El zip DEBE incluir los textos de licencia de terceros (bCDDL/MIT de BeamNG).
+          if ! unzip -l MRMP.zip | grep -q '3rd_party_licenses/'; then
+            echo "FALLO: MRMP.zip no incluye 3rd_party_licenses/" >&2
+            exit 1
+          fi
 
       - name: Archive MRMP artifact
         uses: actions/upload-artifact@v4
