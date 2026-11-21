@@ -68,6 +68,11 @@ lua/ge/extensions/UI.lua                                # SOLO los windowTitle d
 # (scripts/BeamMP/modScript.lua: titulo/desc de la categoria de controles; MPModManager.lua: titulo del aviso de mod incompatible; ya listados arriba)
 # MPVehicleGE.lua NO se toca: excepcion documentada en tools/check_brand.js
 
+# --- Task 6 (F2): transporte en la barra de sesion y carga segura de DOMPurify ---
+ui/modules/apps/BeamMP-Session/app.js      # bloque "Conexion" (UDP/TCP) + espera de carga de DOMPurify
+ui/modules/apps/BeamMP-Session/app.html    # tercer bloque de metrica: etiqueta "Conexion" y valor
+ui/modules/apps/BeamMP-Chat/app.js         # .catch en el import() de purify (no usa DOMPurify directamente)
+
 # --- Tareas previas y guardianes (R2) ---
 NOTICE-MR.md                            # aviso de origen/licencia
 .github/workflows/**                    # package.yml propio; workflows upstream eliminados

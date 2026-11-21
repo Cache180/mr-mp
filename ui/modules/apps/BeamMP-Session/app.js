@@ -5,7 +5,10 @@
 var app = angular.module('beamng.apps');
 var mdDialog;
 var mdDialogVisible = false;
-import('/ui/lib/ext/purify.min.js')
+// purifyReady pasa a true cuando el import() en segundo plano de DOMPurify resuelve.
+// Hasta entonces el saneado cae a texto plano (ver formatServerName / escapeHtml).
+var purifyReady = false;
+import('/ui/lib/ext/purify.min.js').then(function () { purifyReady = true; }).catch(function () {});
 app.directive('beammpSession', [function () {
 	return {
 		templateUrl: '/ui/modules/apps/BeamMP-Session/app.html',
@@ -33,12 +36,59 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 		}
 	};
 
+	// --- Transporte (UDP/TCP) mostrado en la barra de sesion ---
+	// El valor viene del proxy local del launcher (GET /mr/transport) y se pinta como
+	// TEXTO, nunca como HTML. El puerto del proxy lo da el Lua del mod (sin tocarlo).
+	var transportTimer = null;
+	var transportFailLogged = false; // un solo log por racha de fallos
+
+	const setTransportText = function(value) {
+		const el = document.getElementById("Session-Transport");
+		if (!el) return;
+		let text = "?";
+		if (value === "udp") text = "UDP";
+		else if (value === "tcp") text = "TCP (UDP bloqueado)";
+		el.textContent = text; // texto, nunca innerHTML
+	};
+
+	const onTransportFail = function(reason) {
+		setTransportText(null);
+		if (!transportFailLogged) {
+			transportFailLogged = true; // no repetir el log en la misma racha de fallos
+			console.warn("[MR] consulta de transporte fallida: " + reason);
+		}
+	};
+
+	const queryTransport = function() {
+		bngApi.engineLua('MPCoreNetwork.getProxyPort()', function(port) {
+			if (!port) { onTransportFail("sin puerto de proxy"); return; }
+			fetch('http://localhost:' + port + '/mr/transport', { cache: 'no-store' })
+				.then(function(r) {
+					if (!r.ok) throw new Error('HTTP ' + r.status);
+					return r.json();
+				})
+				.then(function(data) {
+					transportFailLogged = false; // el proxy respondio: fin de la racha
+					const t = data && typeof data.transport === 'string' ? data.transport : null;
+					setTransportText(t === 'udp' || t === 'tcp' ? t : null); // cualquier otro valor -> ?
+				})
+				.catch(function(err) { onTransportFail(err && err.message ? err.message : String(err)); });
+		});
+	};
+
 	$scope.init = function() {
 		applySessionStyle(Settings.values.useUiAppRedesign);
 		bngApi.engineLua('UI.setServerName()'); // request server name
 		bngApi.engineLua('UI.sendQueue()'); // request queue data
 		//TODO: ping request to instantly populate the player count
+		queryTransport(); // al montar
+		if (transportTimer) clearInterval(transportTimer);
+		transportTimer = setInterval(queryTransport, 5000); // cada 5 s mientras haya sesion
 	};
+
+	$scope.$on('$destroy', function () {
+		if (transportTimer) { clearInterval(transportTimer); transportTimer = null; }
+	});
 
 	mdDialog = $mdDialog;
 
@@ -171,12 +221,22 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 
 
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+}
+
 function formatServerName(string) {
     let result = '';
     let currentText = '';
     let classes = new Set();
 
-	string = DOMPurify.sanitize(string);
+	// Detras de la espera de carga: si DOMPurify aun no esta listo, texto plano (nunca HTML sin sanear).
+	string = purifyReady ? DOMPurify.sanitize(string) : escapeHtml(string);
 
     const tokens = string.split(/(\^.)/g);
 

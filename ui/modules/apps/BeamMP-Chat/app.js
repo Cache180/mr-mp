@@ -10,7 +10,9 @@ let lastSentMessage = "";
 
 let lastMsgId = 0;
 let newChatMenu = false;
-import('/ui/lib/ext/purify.min.js')
+// Carga de DOMPurify en segundo plano; este app sanea con escapeHtml, asi que no usa
+// DOMPurify directamente. El .catch evita una promesa rechazada sin manejar si falla la carga.
+import('/ui/lib/ext/purify.min.js').catch(function () {})
 app.directive('beammpChat', [function () {
 	return {
 		templateUrl: '/ui/modules/apps/BeamMP-Chat/app.html',
