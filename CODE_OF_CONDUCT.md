@@ -59,8 +59,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at our 
-[Forum](https://forum.beammp.com/) or [Discord](https://discord.gg/beammp).
+reported to the community leaders responsible for enforcement by opening an
+issue at [Cache180/mr-mp](https://github.com/Cache180/mr-mp/issues).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
@@ -123,4 +123,4 @@ enforcement ladder](https://github.com/mozilla/diversity).
 
 [homepage]: https://www.contributor-covenant.org
 
-For answers to common questions about this code of conduct, contact us directly via [Forum](https://forum.beammp.com/) or [Discord](https://discord.gg/beammp).
+For answers to common questions about this code of conduct, open an issue at [Cache180/mr-mp](https://github.com/Cache180/mr-mp/issues).

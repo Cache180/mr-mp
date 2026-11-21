@@ -1,8 +1,9 @@
 name: Release by tag
 
-# Un tag v* publica una release INMUTABLE con los assets MRMP.zip y MRMP.zip.sha256.
-# Si el tag ya tiene release, falla en vez de sobrescribirla. La pre-release rodante ci-latest
-# la mantiene package.yml en cada push a mr-main.
+# Un tag v* publica una release INMUTABLE con los assets MRMP.zip y MRMP.zip.sha256, tras correr los MISMOS
+# guardianes que mr-main (via el workflow reutilizable build.yml) y comprobar que el commit del tag esta en
+# mr-main. Si el tag ya tiene release, falla en vez de sobrescribirla. La pre-release rodante ci-latest la
+# mantiene package.yml en cada push a mr-main.
 on:
   push:
     tags:
@@ -12,40 +13,9 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build MRMP.zip
-        shell: bash
-        run: |
-          set -euo pipefail
-          # Mismo contenido que el build de package.yml.
-          items=()
-          for p in icons lua locales scripts settings ui vehicles 3rd_party_licenses LICENSE* NOTICES.md NOTICE-MR.md README.md; do
-            if [ -e "$p" ]; then items+=("$p"); else echo "skip (missing): $p"; fi
-          done
-          zip -r MRMP.zip "${items[@]}"
-          sha256sum MRMP.zip > MRMP.zip.sha256
-          cat MRMP.zip.sha256
-          unzip -l MRMP.zip | tail -n 1
-          if ! unzip -l MRMP.zip | grep -q '3rd_party_licenses/'; then
-            echo "FALLO: MRMP.zip no incluye 3rd_party_licenses/" >&2
-            exit 1
-          fi
-
-      - name: Publish immutable release for the tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          tag="${GITHUB_REF_NAME}"
-          # Inmutable: si el tag ya tiene release, no se sobrescribe.
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "FALLO: la release del tag $tag ya existe; no se sobrescribe." >&2
-            exit 1
-          fi
-          gh release create "$tag" MRMP.zip MRMP.zip.sha256 \
-            --title "MR Multiplayer $tag" \
-            --notes "MRMP.zip de $tag (sha256 en MRMP.zip.sha256)."
+  build:
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: write
+    with:
+      publish: tag

@@ -81,6 +81,7 @@ tools/**                                # guardianes de CI + tooling fijado (che
 # --- Task 3: documentacion propia, aviso de licencia y release ---
 # Cada documento tocado lleva su entrada por archivo (no por patron).
 README.md                                       # README propio de MR Multiplayer (fork de BeamMP, AGPL-3.0)
+CODE_OF_CONDUCT.md                              # contacto a Issues de Cache180/mr-mp (fuera foro/discord de BeamMP)
 CONTRIBUTING.md                                 # guia de contribucion propia
 NOTICES.md                                      # avisos de terceros corregidos (lo que el zip realmente contiene)
 .github/FUNDING.yml                             # BORRADO: patrocinio de BeamMP fuera

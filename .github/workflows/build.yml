@@ -1,0 +1,161 @@
+name: Guard, build and publish MRMP
+
+# Workflow reutilizable: corre los MISMOS guardianes que mr-main, construye MRMP.zip y (segun "publish")
+# publica. Lo llaman package.yml (push a mr-main -> ci-latest rodante) y release.yml (tag v* -> release
+# inmutable). Asi una release por tag solo puede enviar lo que paso por los guardianes (R57).
+on:
+  workflow_call:
+    inputs:
+      publish:
+        description: "none | ci-latest | tag"
+        type: string
+        default: "none"
+
+permissions:
+  contents: write
+
+env:
+  # Base upstream (BeamMP) de los guardianes de diff. Literal en el workflow, NO leido de tools/.
+  MR_BASE_SHA: d882321495ac78dc36442f915198a9e1c3ce176f
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Historial completo: check_touched compara contra la base upstream.
+          fetch-depth: 0
+
+      # Release por tag: el commit del tag debe estar en mr-main (R57). Si no, no paso los guardianes alli.
+      - name: Verify tag commit is on mr-main
+        if: ${{ inputs.publish == 'tag' }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin +refs/heads/mr-main:refs/remotes/origin/mr-main
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" origin/mr-main; then
+            echo "FALLO: ${GITHUB_SHA} no es ancestro de origin/mr-main; un tag solo publica lo que paso por los guardianes de mr-main." >&2
+            exit 1
+          fi
+
+      - name: Install Lua parser (luajit)
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y luajit
+          luajit -v
+
+      # Herramienta de CI para los guardianes de UI (marca, JSON, Vue). Version fijada por
+      # tools/package-lock.json (reproducible); se instala fuera del repo y del zip.
+      - name: Install Vue SFC compiler (CI tooling, not shipped)
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/vue-sfc"
+          cp tools/package.json tools/package-lock.json "$RUNNER_TEMP/vue-sfc/"
+          npm ci --prefix "$RUNNER_TEMP/vue-sfc" --no-audit --no-fund --ignore-scripts
+          echo "MR_SFC_DIR=$RUNNER_TEMP/vue-sfc" >> "$GITHUB_ENV"
+          node -e 'console.log("compiler-sfc", require(require.resolve("@vue/compiler-sfc/package.json", { paths: [process.env.RUNNER_TEMP + "/vue-sfc"] })).version)'
+
+      # Guardianes: corren ANTES de empaquetar y se ejecutan todos aunque uno falle (para ver todos los
+      # fallos de una vez); si cualquiera falla, los pasos de empaquetado y publicacion se omiten.
+      - name: Guard - only allowlisted files differ from upstream
+        run: bash tools/check_touched.sh "$MR_BASE_SHA"
+
+      - name: Guard - MR contract symbols still exported
+        if: ${{ !cancelled() }}
+        run: bash tools/check_mr_contract.sh
+
+      - name: Guard - mod name, port and notices
+        if: ${{ !cancelled() }}
+        run: bash tools/check_names.sh
+
+      - name: Guard - Lua syntax of allowlisted files
+        if: ${{ !cancelled() }}
+        run: bash tools/check_lua_syntax.sh
+
+      - name: Guard - no visible BeamMP brand
+        if: ${{ !cancelled() }}
+        run: bash tools/check_brand.sh
+
+      - name: Guard - changed JSON files parse
+        if: ${{ !cancelled() }}
+        run: bash tools/check_json.sh "$MR_BASE_SHA"
+
+      - name: Guard - changed Vue files compile
+        if: ${{ !cancelled() }}
+        run: bash tools/check_vue.sh "$MR_BASE_SHA"
+
+      - name: Guard - DOMPurify always behind its load wait
+        if: ${{ !cancelled() }}
+        run: bash tools/check_purify.sh
+
+      - name: Guard - license acceptance key and source-code link
+        if: ${{ !cancelled() }}
+        run: bash tools/check_tos.sh
+
+      - name: Build MRMP.zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Only package paths that exist in the repo (e.g. LICENSE vs LICENSE.md).
+          items=()
+          for p in icons lua locales scripts settings ui vehicles 3rd_party_licenses LICENSE* NOTICES.md NOTICE-MR.md README.md; do
+            if [ -e "$p" ]; then items+=("$p"); else echo "skip (missing): $p"; fi
+          done
+          zip -r MRMP.zip "${items[@]}"
+          sha256sum MRMP.zip > MRMP.zip.sha256
+          cat MRMP.zip.sha256
+          unzip -l MRMP.zip | tail -n 1
+          # El zip DEBE incluir los textos de licencia de terceros (bCDDL/MIT de BeamNG).
+          if ! unzip -l MRMP.zip | grep -q '3rd_party_licenses/'; then
+            echo "FALLO: MRMP.zip no incluye 3rd_party_licenses/" >&2
+            exit 1
+          fi
+
+      - name: Archive MRMP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MRMP
+          path: |
+            MRMP.zip
+            MRMP.zip.sha256
+          if-no-files-found: error
+
+      - name: Publish MRMP.zip to the rolling pre-release ci-latest
+        if: ${{ inputs.publish == 'ci-latest' && github.ref == 'refs/heads/mr-main' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          notes="MRMP.zip built from ${GITHUB_SHA} (rolling build, replaced on every push to mr-main)."
+          # Mueve SOLO el ref del tag (atomico), sin borrar la release: las URLs de descarga nunca dan 404
+          # y la release nunca esta ausente aunque un paso posterior falle.
+          if gh api "repos/${GITHUB_REPOSITORY}/git/refs/tags/ci-latest" >/dev/null 2>&1; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/git/refs/tags/ci-latest" -f sha="${GITHUB_SHA}" -F force=true >/dev/null
+          else
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/git/refs" -f ref="refs/tags/ci-latest" -f sha="${GITHUB_SHA}" >/dev/null
+          fi
+          if gh release view ci-latest >/dev/null 2>&1; then
+            gh release upload ci-latest MRMP.zip MRMP.zip.sha256 --clobber
+            gh release edit ci-latest --prerelease --notes "$notes"
+          else
+            gh release create ci-latest MRMP.zip MRMP.zip.sha256 --prerelease --title "MRMP ci-latest" --notes "$notes"
+          fi
+
+      - name: Publish immutable release for the tag
+        if: ${{ inputs.publish == 'tag' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          # Inmutable: si el tag ya tiene release, no se sobrescribe.
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "FALLO: la release del tag $tag ya existe; no se sobrescribe." >&2
+            exit 1
+          fi
+          gh release create "$tag" MRMP.zip MRMP.zip.sha256 \
+            --title "MR Multiplayer $tag" \
+            --notes "MRMP.zip de $tag (sha256 en MRMP.zip.sha256)."
