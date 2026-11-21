@@ -67,6 +67,10 @@ jobs:
         if: ${{ !cancelled() }}
         run: bash tools/check_vue.sh "$(cat tools/base-sha.txt)"
 
+      - name: Guard - DOMPurify always behind its load wait
+        if: ${{ !cancelled() }}
+        run: bash tools/check_purify.sh
+
       - name: Build MRMP.zip
         shell: bash
         run: |
