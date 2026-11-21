@@ -216,6 +216,12 @@ local function setPing(ping)
 	pings[MPConfig.getNickname()] = ping
 end
 
+--- Used to set the transport (UDP/TCP) shown in the session status bar. The raw value is mapped by the JS.
+-- @param value string
+local function setTransport(value)
+	guihooks.trigger("setTransport", value)
+end
+
 
 --- Set the users nickname so that we know what our username was in lua.
 -- Useful in determining who we are 
@@ -653,6 +659,7 @@ M.updateLoading = updateLoading
 M.promptAutoJoinConfirmation = promptAutoJoinConfirmation
 M.updatePlayersList = updatePlayersList
 M.setPing = setPing
+M.setTransport = setTransport
 M.setNickname = setNickname
 M.setServerName = setServerName
 M.chatMessage = chatMessage

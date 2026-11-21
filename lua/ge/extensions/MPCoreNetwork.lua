@@ -573,6 +573,8 @@ local function handleU(params)
 	elseif code == "p" and isMpSession then
 		UI.setPing(data.."")
 		positionGE.setPing(data)
+	elseif code == "t" and isMpSession then
+		UI.setTransport(data)
 	end
 end
 

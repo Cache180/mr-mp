@@ -14,7 +14,7 @@
 # --- Task 9: identidad y puerto del mod ---
 scripts/BeamMP/modScript.lua            # nombre de mod multiplayermrmp + avisos de version incompatible
 lua/ge/extensions/MPModManager.lua      # lista blanca de mods y excepcion de limpieza (multiplayermrmp)
-lua/ge/extensions/MPCoreNetwork.lua     # SOLO la linea del puerto del launcher (mrLauncherPort, 4464)
+lua/ge/extensions/MPCoreNetwork.lua     # linea del puerto del launcher (mrLauncherPort, 4464) + rama "t" de handleU (transporte, Task 8b)
 lua/ge/extensions/MPGameNetwork.lua     # SOLO la linea del puerto del launcher (mrLauncherPort, 4464 + 1)
 
 # --- Task 9: dependencias funcionales del puerto fuera de la lista original ---
@@ -64,7 +64,7 @@ ui/modules/apps/BeamMP-PlayerList/app.png           # idem "BeamMP Player List"
 ui/modules/apps/BeamMP-Session/app.png              # idem "BeamMP Session"
 
 # --- Task 10b (R19): textos de pantalla en Lua, SOLO cadenas visibles ---
-lua/ge/extensions/UI.lua                                # SOLO los windowTitle del chat imgui (el id de imgui.Begin/registerWindow NO cambia)
+lua/ge/extensions/UI.lua                                # windowTitle del chat imgui (el id de imgui.Begin/registerWindow NO cambia) + setTransport (Task 8b)
 # (scripts/BeamMP/modScript.lua: titulo/desc de la categoria de controles; MPModManager.lua: titulo del aviso de mod incompatible; ya listados arriba)
 # MPVehicleGE.lua NO se toca: excepcion documentada en tools/check_brand.js
 

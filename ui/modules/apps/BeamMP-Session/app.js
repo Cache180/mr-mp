@@ -36,71 +36,12 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 		}
 	};
 
-	// --- Transporte (UDP/TCP) mostrado en la barra de sesion ---
-	// El valor viene del proxy local del launcher (GET /mr/transport) y se pinta como
-	// TEXTO, nunca como HTML. El puerto del proxy lo da el Lua del mod (sin tocarlo).
-	var transportTimer = null;
-	var transportFailLogged = false; // un solo log por racha de fallos
-	var transportInFlight = false;   // evita solapar consultas; se salta el tick si hay una en curso
-
-	const setTransportText = function(value) {
-		const el = document.getElementById("Session-Transport");
-		if (!el) return;
-		let text = "?";
-		if (value === "udp") text = "UDP";
-		else if (value === "tcp") text = "TCP (UDP bloqueado)";
-		el.textContent = text; // texto, nunca innerHTML
-	};
-
-	const onTransportFail = function(reason) {
-		setTransportText(null);
-		if (!transportFailLogged) {
-			transportFailLogged = true; // no repetir el log en la misma racha de fallos
-			console.warn("[MR] consulta de transporte fallida: " + reason);
-		}
-	};
-
-	const queryTransport = function() {
-		if (transportInFlight) return; // ya hay una consulta en curso: saltar este tick
-		transportInFlight = true;
-		bngApi.engineLua('MPCoreNetwork.getProxyPort()', function(port) {
-			if (!port) { transportInFlight = false; onTransportFail("sin puerto de proxy"); return; }
-			const ctrl = new AbortController();
-			const timeout = setTimeout(function() { ctrl.abort(); }, 3000); // aborta la peticion a los 3 s
-			fetch('http://localhost:' + port + '/mr/transport', { cache: 'no-store', signal: ctrl.signal })
-				.then(function(r) {
-					if (!r.ok) throw new Error('HTTP ' + r.status);
-					return r.json();
-				})
-				.then(function(data) {
-					transportFailLogged = false; // el proxy respondio: fin de la racha
-					const t = data && typeof data.transport === 'string' ? data.transport : null;
-					setTransportText(t === 'udp' || t === 'tcp' ? t : null); // cualquier otro valor -> ?
-				})
-				.catch(function(err) {
-					// un abort (timeout de 3 s) o cualquier otro error cuenta como fallo
-					onTransportFail(err && err.message ? err.message : String(err));
-				})
-				.finally(function() {
-					clearTimeout(timeout);
-					transportInFlight = false; // libera el guard en cualquier desenlace
-				});
-		});
-	};
-
 	$scope.init = function() {
 		applySessionStyle(Settings.values.useUiAppRedesign);
 		bngApi.engineLua('UI.setServerName()'); // request server name
 		bngApi.engineLua('UI.sendQueue()'); // request queue data
 		//TODO: ping request to instantly populate the player count
-		queryTransport(); // al montar
-		if (transportTimer) clearInterval(transportTimer);
-		transportTimer = setInterval(queryTransport, 5000); // cada 5 s mientras haya sesion
 	};
-
-	$scope.$on('$destroy', function () {
-		if (transportTimer) { clearInterval(transportTimer); transportTimer = null; }
-	});
 
 	mdDialog = $mdDialog;
 
@@ -181,6 +122,17 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 		if (sessionPing) {
 			sessionPing.innerHTML = ping;
 		}
+	});
+
+	// El launcher empuja el transporte (UDP/TCP) por el canal del core, justo tras el ping.
+	$scope.$on('setTransport', function (event, value) {
+		var el = document.getElementById("Session-Transport");
+		// To ensure that the element exists
+		if (!el) return;
+		var text = "?";
+		if (value === "udp") text = "UDP";
+		else if (value === "tcp") text = "TCP (UDP bloqueado)";
+		el.textContent = text; // texto, nunca HTML
 	});
 
 	$scope.$on('onBeamMPSetQueue', function (event, queue) {
