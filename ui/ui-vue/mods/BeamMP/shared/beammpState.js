@@ -2,6 +2,9 @@ import { computed, ref } from "vue"
 import { useBridge } from "@/bridge"
 import { LOGIN_FAILED_MESSAGE, PILOT_NAME_ERROR, PILOT_NAME_PATTERN } from "./constants.js"
 
+// Version propia del mod (tren MR). En pantalla: "MR Multiplayer 1.2.0 (base <beammpGameVer>)".
+export const MR_VERSION = "1.2.0"
+
 // useBridge is a Vue composable, so initialise it from useBeamMPState() while
 // component setup is active, then retain its API for this shared state module.
 let bridgeApi
@@ -73,7 +76,7 @@ const officialMaps = [
 
 const state = {
   isReady: ref(false),
-  tosAccepted: ref(localStorage.getItem("tosAccepted") === "true"),
+  mrTosAccepted: ref(localStorage.getItem("mrTosAccepted") === "true"),
   launcherConnected: ref(false),
   loggedIn: ref(false),
   loginError: ref(""),
@@ -559,8 +562,8 @@ async function getLauncherVersion() {
 }
 
 function acceptTos() {
-  localStorage.setItem("tosAccepted", "true")
-  state.tosAccepted.value = true
+  localStorage.setItem("mrTosAccepted", "true")
+  state.mrTosAccepted.value = true
   extensionCommand("MPConfig", "acceptTos")
 }
 

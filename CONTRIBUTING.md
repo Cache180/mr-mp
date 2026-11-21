@@ -1,66 +1,63 @@
-# Contributing to BeamMP projects
+# Contribuir a MR Multiplayer
 
-A big welcome and thank you for considering contributing to BeamMP open source projects! It’s people like you that make it a reality for users in our community.
+Gracias por tu interes en contribuir a MR Multiplayer, el mod de multijugador de **MR Plataforma**
+(Muertazos Racing) y fork de [BeamMP](https://github.com/BeamMP/BeamMP) (AGPL-3.0).
 
-Reading and following these guidelines will help us make the contribution process easy and effective for everyone involved. It also communicates that you agree to respect the time of the developers managing and developing these open source projects. In return, we will reciprocate that respect by addressing your issue, assessing changes, and helping you finalize your pull requests.
+Leer y seguir estas pautas ayuda a que el proceso de contribucion sea claro para todos. A cambio, revisamos
+tu incidencia o cambio y te ayudamos a cerrarlo.
 
-## Quicklinks
+## Indice
 
-- [Contributing to BeamMP projects](#contributing-to-beammp-projects)
-  - [Quicklinks](#quicklinks)
-  - [Code of Conduct](#code-of-conduct)
-  - [Getting Started](#getting-started)
-    - [External Requirements](#external-requirements)
-    - [Issues](#issues)
-    - [Pull Requests](#pull-requests)
-  - [Getting Help](#getting-help)
+- [Codigo de conducta](#codigo-de-conducta)
+- [Antes de empezar](#antes-de-empezar)
+- [Incidencias](#incidencias)
+- [Pull requests](#pull-requests)
+- [Licencia de las contribuciones](#licencia-de-las-contribuciones)
 
-## Code of Conduct
+## Codigo de conducta
 
-We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our [Code of Conduct](https://github.com/BeamMP/BeamMP/blob/master/CODE-OF-CONDUCT.md).
+Nos tomamos en serio la comunidad. Al participar aceptas respetar el [Codigo de conducta](CODE_OF_CONDUCT.md)
+de este repositorio.
 
-## Getting Started
+## Antes de empezar
 
-Contributions are made to this repo via Issues and Pull Requests (PRs). A few general guidelines that cover both:
+Las contribuciones llegan por Issues y Pull Requests (PRs) en <https://github.com/Cache180/mr-mp>:
 
-- To report security vulnerabilities, please use our [Responsible Disclosure Program](https://forms.gle/34xKX4ypZ5nb4XQs7) which is monitored by our developer team.
-- Search for existing Issues and PRs before creating your own.
-- We work hard to makes sure issues are handled in a timely manner but, depending on the impact, it could take a while to investigate the root cause. A friendly ping in the comment thread to the submitter or a contributor can help draw attention if your issue is blocking.
-- If you've never contributed before, see [the first timer's guide on our wiki]() for resources and tips on how to get started.
+- Para vulnerabilidades de seguridad, **no abras un issue publico**: reportalas de forma privada a traves de
+  los canales de MR Plataforma.
+- Busca Issues y PRs existentes antes de crear los tuyos; si ya existe uno sobre tu problema, suma tu
+  informacion de reproduccion ahi en vez de abrir otro.
 
-### External Requirements
+## Incidencias
 
-The BeamMP Mod ships with the Beamlings content produced by @VanilleVaschnille. This content is under its own licensing and as such is not included as part of this repository.
-You will need to add this content to the mod source code for development OR simply not include it if you are not going to be affected by the unicycle not showing up.
+Usa los Issues para reportar fallos, pedir una funcion o discutir un cambio antes de un PR. Al crear un Issue
+se carga una plantilla (`.github/ISSUE_TEMPLATE/`) que te guia para aportar la informacion necesaria.
 
-### Issues
+## Pull requests
 
-Issues should be used to report problems with the mod, request a new feature, or to discuss potential changes before a PR is created. When you create a new Issue, a template will be loaded that will guide you through collecting and providing the information we need to investigate.
+En general, un PR deberia:
 
-If you find an Issue that addresses the problem you're having, please add your own reproduction information to the existing issue rather than creating a new one. Adding a [reaction](https://github.blog/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/) can also help be indicating to our devlopers & maintainers that a particular problem is affecting more than just the reporter.
+- Arreglar o anadir **una** cosa, en el menor numero de lineas posible (salvo mejoras de rendimiento).
+- No mezclar cambios funcionales con reformateos de estilo masivos.
+- Incluir comentarios utiles en el commit / PR.
+- Pasar los guardianes de CI (`.github/workflows/package.yml` ejecuta los de `tools/`): marca MR, nombre y
+  puerto del mod, sintaxis Lua, JSON/Vue, aviso de licencia y lista blanca de archivos tocados respecto a la
+  base upstream.
 
-### Pull Requests
+Para cambios que afecten a la funcionalidad central o que rompan compatibilidad, abre antes un Issue para
+discutir la propuesta.
 
-PRs to our libraries are always welcome and can be a quick way to get your fix or improvement slated for the next release. In general, PRs should:
+Flujo "fork-and-pull" habitual:
 
-- Only fix/add the functionality in question **OR** address wide-spread whitespace/style issues, not both.
-- Address a single concern in the least number of changed lines as possible unless for a performance improvement.
-- Include comments in the commit / PR.
-- Be accompanied by a complete Pull Request template (loaded automatically when a PR is created).
+1. Haz un fork del repositorio.
+2. Clona tu fork.
+3. Crea una rama con un nombre descriptivo.
+4. Haz commits en esa rama.
+5. Respeta el formato y los guardianes del repo.
+6. Empuja a tu fork.
+7. Abre un PR siguiendo la plantilla para que podamos revisarlo.
 
-For changes that address core functionality or would require breaking changes (e.g. a major release), it's best to open an Issue to discuss your proposal first. This is not required but can save time creating and reviewing changes.
+## Licencia de las contribuciones
 
-In general, we follow the ["fork-and-pull" Git workflow](https://github.com/susam/gitpr)
-
-1. Fork the repository to your own Github account
-2. Clone the project to your machine
-3. Create a branch locally with a succinct but descriptive name
-4. Commit changes to the branch
-5. Following any formatting and testing guidelines specific to this repo
-6. Push changes to your fork
-7. Open a PR in our repository and follow the PR template so that we can efficiently review the changes.
-
-## Getting Help
-
-Join us in the BeamMP Community [Forum](https://forum.beammp.com) and post your question there in the correct category with a descriptive tag.
-Alternatively contact us on [Discord](https://discord.gg/beammp) (Not recommended for this subject).
+Al contribuir aceptas que tu aportacion se licencie bajo **AGPL-3.0-or-later**, igual que el resto del
+codigo del mod.

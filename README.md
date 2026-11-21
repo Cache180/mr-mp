@@ -1,94 +1,46 @@
-# BeamMP
-A Lua mod bringing online multiplayer to [BeamNG.drive](https://beamng.com)!
+# MR Multiplayer
 
-# Important Links
+Mod de multijugador en linea para [BeamNG.drive](https://beamng.com), parte de **MR Plataforma** (Muertazos Racing).
 
-- [Documentation](https://beammp.github.io/BeamMP/)
-- [Discord](https://discord.gg/BeamMP)
-- [Website](https://beammp.com)
-- [Docs](https://docs.beammp.com)
-- [Forum](https://forum.beammp.com)
-- `#beammp` on `irc.libera.chat` ([webchat link](https://web.libera.chat/#beammp))
+MR Multiplayer es un **fork de [BeamMP](https://github.com/BeamMP/BeamMP)** (licencia AGPL-3.0). Mantiene la
+mecanica de sincronizacion de BeamMP y la adapta a la plataforma de Muertazos Racing: cara propia, puerto y
+nombre de mod propios, y un canal de publicacion propio. No esta afiliado al proyecto BeamMP ni a sus
+servicios; para soporte usa los canales de MR Plataforma, no los de BeamMP.
 
-# Contents
-- [BeamMP](#beammp)
-- [Important Links](#important-links)
-- [Contents](#contents)
-- [Installation](#installation)
-- [Servers](#servers)
-- [How does it work?](#how-does-it-work)
-- [Roadmap](#roadmap)
-- [Troubleshooting](#troubleshooting)
-- [Support](#support)
-- [Translations](#translations)
+## Codigo fuente y licencia
 
+- Codigo fuente: <https://github.com/Cache180/mr-mp>
+- Licencia: **AGPL-3.0-or-later** (ver [`LICENSE`](LICENSE)). Al ser un trabajo derivado de BeamMP, el codigo
+  del cliente permanece bajo AGPL-3.0; se conservan la licencia y los avisos de copyright originales.
+- Origen y base upstream: ver [`NOTICE-MR.md`](NOTICE-MR.md).
+- Avisos de terceros (BeamNG GmbH, Flagpedia): ver [`NOTICES.md`](NOTICES.md) y la carpeta
+  [`3rd_party_licenses/`](3rd_party_licenses).
 
-# Installation
+## Contenido
 
-**[Click here for a step-by-step guide](https://docs.beammp.com/game/getting-started/) on how to install the mod on Windows.**
+- [MR Multiplayer](#mr-multiplayer)
+- [Codigo fuente y licencia](#codigo-fuente-y-licencia)
+- [Como funciona](#como-funciona)
+- [Compilacion y publicacion](#compilacion-y-publicacion)
+- [Contribuir](#contribuir)
 
-The BeamMP mod has been made as simple as it gets. Just head over to [our website (BeamMP.com)](https://beammp.com) and click download. This will download a zip file which contains the installer exe. Just run that exe and follow the instructions. Once this completes all you need to do is double click the shortcut on your desktop. 
+## Como funciona
 
-Now you can play by clicking "Play" and then "Multiplayer", logging in with either a guest account or a [BeamMP Forum](https://forum.beammp.com) account.
-Then just select a server to play on! That's it! :)
+El mod corre dentro de BeamNG.drive (Lua + UI en Vue). Un launcher propio arranca el juego, se conecta al
+mod y reenvia los paquetes de red (posiciones, rotaciones, chat, etc.) entre el juego y el servidor elegido.
+El servidor es un reemplazo directo compatible con BeamMP. Los componentes nativos (launcher y servidor) viven
+en sus propios repositorios de MR Plataforma.
 
-If you need help at any point, see the [troubleshooting](#troubleshooting) section. There are instructions there on how to get support from our dedicated support team.
+## Compilacion y publicacion
 
-# Servers
+El empaquetado lo hace GitHub Actions (`.github/workflows/package.yml`):
 
-[Click here for a step-by-step guide](https://docs.beammp.com/server/create-a-server/) on how to set up and run a server for you & your friends.
+- En cada push a `mr-main` se ejecutan los guardianes de `tools/`, se construye `MRMP.zip` (con
+  `MRMP.zip.sha256`) y se publica en la pre-release rodante `ci-latest`, cuyo tag se mueve al commit publicado.
+- Un tag `v*` dispara una release inmutable (`.github/workflows/release.yml`) con los assets `MRMP.zip` y
+  `MRMP.zip.sha256`; si el tag ya tiene release, falla en vez de sobrescribirla.
 
-The server is usable free of charge for non-commercial use, and the source code is available on [GitHub](https://github.com/BeamMP/BeamMP-Server).
+## Contribuir
 
-Please check out [docs.beammp.com](https://docs.beammp.com) for a guide on how to setup your own server. If you run into issues, join the official [Discord](https://discord.gg/BeamMP) or join us via IRC in `#beammp` on `irc.libera.chat` ([webchat link](https://web.libera.chat/#beammp)).
-
-# How does it work?
-*This section is a technical explanation of the inner workings of the project and is not relevant for most players.*
-
-The Launcher is a separate program which starts the game and connects to the Lua mod right away. The launcher then connects to a remote server of your choice, and these two communicate. The launcher then forwards some packets to the game, like car positions, rotations, chat messages, etc.
-
-For more information on how the launcher and server operate, you can read the source code (C++) in their respective repositories: 
-- [Launcher](https://github.com/BeamMP/BeamMP-Launcher)
-- [Server](https://github.com/BeamMP/BeamMP-Server)
-
-# Roadmap
-You can see and keep track of development, planned features, etc. [Here](https://github.com/orgs/BeamMP/projects/4) or on the GitHub Issues section of each repository.
-
-Additionally, you can join the [Discord](https://discord.gg/BeamMP), where regular updates are posted!
-Also there is our community [Forum](https://forum.beammp.com/), where we post additional details.
-
-# Troubleshooting
-
-- [Frequently Asked Questions/Common Issues](https://forum.beammp.com/c/faq/35)
-- [Error Codes](https://docs.beammp.com/server/error-codes/)
-- [Server Auth Key](https://www.beammp.com/keymaster)
-
-If none of these fix your issue, we have a dedicated support team on our [Discord](https://discord.gg/BeamMP), and our [Forum](https://forum.beammp.com/c/support/33)
-
-# Support
-The BeamMP project is supported by community donations via our [Patreon](https://www.patreon.com/BeamMP) This brings perks such as Patreon-only channels on our Discord, Early access to new updates, and more server keys. 
-
-# Translations
-BeamMP makes an effort to be maintained for multiple languages. 
-The current progress of this sits at: 
-[![gitlocalized ](https://gitlocalize.com/repo/9181/whole_project/badge.svg)](https://gitlocalize.com/repo/9181?utm_source=badge) 
-We use [GitLocalize](https://gitlocalize.com/) for managing this. You can contribute if you wish here: https://gitlocalize.com/repo/9181.
-
-The individual language progress is as follows:
-
-| Language              | Badge                                                                                                                           |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Catalan               | [![gitlocalized ](https://gitlocalize.com/repo/9181/ca/badge.svg)](https://gitlocalize.com/repo/9181/ca?utm_source=badge)       |
-| Chinese               | [![gitlocalized ](https://gitlocalize.com/repo/9181/zh/badge.svg)](https://gitlocalize.com/repo/9181/zh?utm_source=badge)       |
-| Czech                 | [![gitlocalized ](https://gitlocalize.com/repo/9181/cs/badge.svg)](https://gitlocalize.com/repo/9181/cs?utm_source=badge)       |
-| French                | [![gitlocalized ](https://gitlocalize.com/repo/9181/fr-FR/badge.svg)](https://gitlocalize.com/repo/9181/fr-FR?utm_source=badge) |
-| German                | [![gitlocalized ](https://gitlocalize.com/repo/9181/de-DE/badge.svg)](https://gitlocalize.com/repo/9181/de-DE?utm_source=badge) |
-| Japanese              | [![gitlocalized ](https://gitlocalize.com/repo/9181/ja-JP/badge.svg)](https://gitlocalize.com/repo/9181/ja-JP?utm_source=badge) |
-| Korean (South Korea)  | [![gitlocalized ](https://gitlocalize.com/repo/9181/ko-KR/badge.svg)](https://gitlocalize.com/repo/9181/ko-KR?utm_source=badge) |
-| Polish                | [![gitlocalized ](https://gitlocalize.com/repo/9181/pl/badge.svg)](https://gitlocalize.com/repo/9181/pl?utm_source=badge)       |
-| Portuguese (Brazil)   | [![gitlocalized ](https://gitlocalize.com/repo/9181/pt_BR/badge.svg)](https://gitlocalize.com/repo/9181/pt_BR?utm_source=badge) |
-| Portuguese (Portugal) | [![gitlocalized ](https://gitlocalize.com/repo/9181/pt-PT/badge.svg)](https://gitlocalize.com/repo/9181/pt-PT?utm_source=badge) |
-| Russian               | [![gitlocalized ](https://gitlocalize.com/repo/9181/ru/badge.svg)](https://gitlocalize.com/repo/9181/ru?utm_source=badge)       |
-| Slovak                | [![gitlocalized ](https://gitlocalize.com/repo/9181/sk/badge.svg)](https://gitlocalize.com/repo/9181/sk?utm_source=badge)       |
-| Spanish               | [![gitlocalized ](https://gitlocalize.com/repo/9181/es-ES/badge.svg)](https://gitlocalize.com/repo/9181/es-ES?utm_source=badge) |
-| Turkish               | [![gitlocalized ](https://gitlocalize.com/repo/9181/tr/badge.svg)](https://gitlocalize.com/repo/9181/tr?utm_source=badge)       |
+Ver [`CONTRIBUTING.md`](CONTRIBUTING.md) y el [codigo de conducta](CODE_OF_CONDUCT.md). Las incidencias y
+propuestas se gestionan en los Issues de <https://github.com/Cache180/mr-mp>.

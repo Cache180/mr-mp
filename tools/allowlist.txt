@@ -75,5 +75,15 @@ ui/modules/apps/BeamMP-Chat/app.js         # .catch en el import() de purify (no
 
 # --- Tareas previas y guardianes (R2) ---
 NOTICE-MR.md                            # aviso de origen/licencia
-.github/workflows/**                    # package.yml propio; workflows upstream eliminados
-tools/**                                # guardianes de CI
+.github/workflows/**                    # package.yml propio; release por tag; workflows upstream eliminados
+tools/**                                # guardianes de CI + tooling fijado (check_tos.sh, package-lock.json)
+
+# --- Task 3: documentacion propia, aviso de licencia y release ---
+# Cada documento tocado lleva su entrada por archivo (no por patron).
+README.md                                       # README propio de MR Multiplayer (fork de BeamMP, AGPL-3.0)
+CONTRIBUTING.md                                 # guia de contribucion propia
+NOTICES.md                                      # avisos de terceros corregidos (lo que el zip realmente contiene)
+.github/FUNDING.yml                             # BORRADO: patrocinio de BeamMP fuera
+.github/ISSUE_TEMPLATE/bug_report.md            # plantilla propia, sin canales de soporte de BeamMP
+.github/ISSUE_TEMPLATE/feature_request.md       # plantilla propia
+.github/ISSUE_TEMPLATE/question.md              # plantilla propia, sin canales de soporte de BeamMP

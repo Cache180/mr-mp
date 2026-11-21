@@ -40,7 +40,10 @@ jobs:
       - name: Install Vue SFC compiler (CI tooling, not shipped)
         run: |
           set -euo pipefail
-          npm install --prefix "$RUNNER_TEMP/vue-sfc" --no-audit --no-fund --ignore-scripts --no-save @vue/compiler-sfc@3.5.13
+          # Version fijada por tools/package-lock.json (reproducible); se instala fuera del repo y del zip.
+          mkdir -p "$RUNNER_TEMP/vue-sfc"
+          cp tools/package.json tools/package-lock.json "$RUNNER_TEMP/vue-sfc/"
+          npm ci --prefix "$RUNNER_TEMP/vue-sfc" --no-audit --no-fund --ignore-scripts
           echo "MR_SFC_DIR=$RUNNER_TEMP/vue-sfc" >> "$GITHUB_ENV"
           node -e 'console.log("compiler-sfc", require(require.resolve("@vue/compiler-sfc/package.json", { paths: [process.env.RUNNER_TEMP + "/vue-sfc"] })).version)'
 
@@ -114,9 +117,8 @@ jobs:
         run: |
           set -euo pipefail
           notes="MRMP.zip built from ${GITHUB_SHA} (rolling build, replaced on every push to mr-main)."
+          # El tag ci-latest se MUEVE al commit publicado: se borra la release con su tag y se recrean en HEAD.
           if gh release view ci-latest >/dev/null 2>&1; then
-            gh release upload ci-latest MRMP.zip MRMP.zip.sha256 --clobber
-            gh release edit ci-latest --prerelease --notes "$notes"
-          else
-            gh release create ci-latest MRMP.zip MRMP.zip.sha256 --prerelease --target "${GITHUB_SHA}" --title "MRMP ci-latest" --notes "$notes"
+            gh release delete ci-latest --yes --cleanup-tag
           fi
+          gh release create ci-latest MRMP.zip MRMP.zip.sha256 --prerelease --target "${GITHUB_SHA}" --title "MRMP ci-latest" --notes "$notes"

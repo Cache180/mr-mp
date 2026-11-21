@@ -1,0 +1,10 @@
+{
+  "name": "mr-mp-ci-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Herramienta de CI de mr-mp: compilador de Vue fijado para los guardianes de UI. No se empaqueta en el mod.",
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "@vue/compiler-sfc": "3.5.13"
+  }
+}

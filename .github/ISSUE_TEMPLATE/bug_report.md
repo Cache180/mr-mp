@@ -1,34 +1,31 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: "[Bug]"
+name: Reporte de fallo
+about: Informa de un problema para ayudarnos a mejorar
+title: "[Fallo]"
 labels: ''
 assignees: ''
 
 ---
 
-**Have you read our FAQ/Wiki/#before-you-ask ?**
-Yes/No
+**Describe el fallo**
+Una descripcion clara y concisa de cual es el problema.
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Pasos para reproducir**
+Pasos para reproducir el comportamiento:
+1. Ir a '...'
+2. Pulsar en '....'
+3. Bajar hasta '....'
+4. Ver el error
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Comportamiento esperado**
+Una descripcion clara de lo que esperabas que ocurriera.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Capturas**
+Si aplica, anade capturas que ayuden a explicar el problema.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Entorno:**
+ - SO + version: [p. ej. Windows 11]
+ - Version del mod: [p. ej. MR Multiplayer 1.2.0]
 
-**Desktop (please complete the following information):**
- - OS + Version: [e.g. Windows, Unix/Linux]
- - Browser (If applicable): [e.g. Chrome, Opera]
-
-**Additional context**
-Add any other context about the problem here.
+**Contexto adicional**
+Cualquier otro detalle sobre el problema.

@@ -54,7 +54,7 @@
         </div>
         <div class="beammp-version">
           <span aria-hidden="true" />
-          {{ $tt("ui.common.beammp.beammp") }} v{{ state.beammpMetrics.value.beammpGameVer }}
+          MR Multiplayer {{ MR_VERSION }} (base {{ state.beammpMetrics.value.beammpGameVer }})
         </div>
 
         <button class="nav-btn" :class="{ active: isServerView('servers') }" @click="gotoView('servers')">{{ $tt("ui.common.beammp.servers") }}</button>
@@ -66,6 +66,11 @@
         <button class="nav-btn" :class="{ active: route.name === BEAMMP_DIRECT_ROUTE_NAME }" @click="gotoRoute(BEAMMP_DIRECT_ROUTE_NAME)">{{ $tt("ui.common.beammp.direct_connect") }}</button>
         <!--<button class="nav-btn" :class="{ active: route.name === BEAMMP_TILES_ROUTE_NAME }" @click="gotoRoute(BEAMMP_TILES_ROUTE_NAME)">Tiles</button>-->
 
+        <a
+          class="source-link"
+          href="https://github.com/Cache180/mr-mp"
+          @click.prevent="openExternal('https://github.com/Cache180/mr-mp')"
+        >Codigo fuente y licencia</a>
       </aside>
 
       <section ref="contentPanel" class="content">
@@ -131,7 +136,7 @@ import {
   BEAMMP_TILES_ROUTE_NAME,
   BEAMMP_TOS_ROUTE_NAME,
 } from "../shared/constants.js"
-import { useBeamMPState } from "../shared/beammpState.js"
+import { MR_VERSION, useBeamMPState } from "../shared/beammpState.js"
 import BeamMPModal from "../shared/BeamMPModal.vue"
 
 const { events } = useBridge()
@@ -148,6 +153,7 @@ const {
   closeLoadingOverlay,
   loadFavorites,
   logout,
+  openExternal,
   approveSecurityPrompt,
   rejectSecurityPrompt,
   refreshConnectionState,
@@ -266,7 +272,7 @@ onMounted(async () => {
   if (state.loggedIn.value) await requestServerList()
   authStateReady.value = true
 
-  if (!state.tosAccepted.value) {
+  if (!state.mrTosAccepted.value) {
     router.replace({ name: BEAMMP_TOS_ROUTE_NAME })
     return
   }
@@ -543,6 +549,26 @@ onBeforeUnmount(() => {
 
   &.category-favorite {
     border-left: 0.22rem solid rgba(var(--bng-ter-yellow-500-rgb), 0.95);
+  }
+}
+
+// Enlace permanente al codigo fuente y licencia (AGPL-3.0). Anclado al pie de la barra lateral.
+.source-link {
+  margin-top: auto;
+  padding: 0.45rem 0.6rem;
+  color: var(--bng-cool-gray-200);
+  font-size: 0.72rem;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--bng-orange-300);
+  }
+
+  &:focus-visible {
+    outline: 0.12rem solid var(--bng-orange-500);
+    outline-offset: 0.08rem;
   }
 }
 

@@ -1,12 +1,10 @@
 ---
-name: Question
-about: Describe your question here.
-title: "[Question]"
+name: Pregunta
+about: Describe tu pregunta aqui.
+title: "[Pregunta]"
 labels: question
 assignees: ''
 
 ---
 
-Have you checked the relevant area on our Forum / Discord / Wiki? **Yes** / **No**
-
-Describe your question in as much detail as possible below please:
+Describe tu pregunta con el mayor detalle posible a continuacion:

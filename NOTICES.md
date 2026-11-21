@@ -1,57 +1,47 @@
 # NOTICES
 
-## License Information
-All code, assets or works not specified in this document which do not have a different notice or license attached are licensed under this license: https://github.com/BeamMP/BeamMP/blob/development/LICENSE.md. 
+Este documento describe la licencia del codigo y los avisos de terceros **tal como se distribuyen en este
+repositorio y en `MRMP.zip`**. MR Multiplayer es un fork de
+[BeamMP](https://github.com/BeamMP/BeamMP) (AGPL-3.0); ver [`NOTICE-MR.md`](NOTICE-MR.md) para el origen.
 
-## Beamlings Works, Code and Assets
-- Beamlings: By VanilleVaschnille
-  - **Version:** 1.0
-  - **License:** Used here by BeamMP with specific permission from the author. The author reserves all rights.
-  - **Files: **
-    - `vehicles/unicycle/beamlings.dae`
-    - `vehicles/unicycle/colour_palette_clothing_map.png`
-    - `vehicles/unicycle/colour_palette_hair_map.png`
-    - `vehicles/unicycle/colour_palette_skin_map.png`
-    - `vehicles/unicycle/main.materials.json`
-    - `vehicles/unicycle/unicycle_beamling.jbeam`
+## Licencia del codigo
 
-## Third-Party Dependencies, Libraries & Works
-- Assets and Code: By BeamNG GmbH
-  - **License:** beamNG COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (bCDDL) Version 1.1
-  - **Location 1:** `3rd_party_licenses/BeamNG-bCDDL-1.1`
-  - **Location 2:** In the Game installation: `./BeamNG.drive/lua/bCDDL-1.1.txt`
-  - **Location 3:** https://beamng.com/bCDDL-1.1.txt
-  - **Files:**
+Todo el codigo, recursos y obras no cubiertos por un aviso o licencia distintos en este documento se
+licencian bajo **AGPL-3.0-or-later**; el texto completo esta en [`LICENSE`](LICENSE).
+
+## Dependencias y obras de terceros
+
+### BeamNG GmbH
+
+- **Licencia:** BeamNG COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (bCDDL) Version 1.1
+  - **Texto:** [`3rd_party_licenses/BeamNG-bCDDL-1.1`](3rd_party_licenses/BeamNG-bCDDL-1.1)
+  - **Tambien en:** la instalacion del juego `./BeamNG.drive/lua/bCDDL-1.1.txt` y
+    <https://beamng.com/bCDDL-1.1.txt>
+  - **Archivos distribuidos bajo esta licencia:**
     - `lua/ge/extensions/core/cameraModes/passenger.lua`
-    - `lua/ge/extensions/core/input/categories.lua`
-    - `lua/vehicle/controller/playerController.lua`
-  - **License:** The MIT License
-  - **Location 1:** `3rd_party_licenses/BeamNG-MIT`
-  - **Location 2:** In the Game installation: `./BeamNG.drive/ui/LICENSE`
-  - **Note:** The License specifies that it is limited to all html, image, js and css files of the games installation `ui` folder and its subfolders
-  - **Files:**
-    - `ui/entrypoints/main.js`
-    - `ui/entrypoints/resources.js`
-    - `ui/modules/mainmenu/mainmenu.js`
-    - `ui/modules/options/options.html`
-    - `ui/modules/vehicleconfig/partial.part.html`
-    - `ui/modules/vehicleconfig/vehicleconfig.js`
+- **Licencia:** The MIT License
+  - **Texto:** [`3rd_party_licenses/BeamNG-MIT`](3rd_party_licenses/BeamNG-MIT)
+  - **Tambien en:** la instalacion del juego `./BeamNG.drive/ui/LICENSE`
+  - **Nota:** la licencia MIT de BeamNG cubre los archivos html, imagen, js y css de la carpeta `ui` de la
+    instalacion del juego y sus subcarpetas. Este repositorio **no redistribuye** ninguno de esos archivos
+    del juego; se conserva el texto de la licencia por referencia.
 
-- Assets: By Patreon Ltd
-  - **License:** https://www.patreon.com/brand
-  - **Files:**
-    - `ui/assets/BeamMP/icons/Digital-Patreon-Logo_White.png`
+### Flagpedia
 
-- Assets: By Discord Inc
-  - **License:** https://discord.com/branding
-  - **Files:**
-    - `ui/assets/BeamMP/icons/icon_clyde_white_RGB.svg`
+- **Licencia:** completamente libre para uso comercial y no comercial (dominio publico)
+  - **Origen:** <https://flagpedia.net/download/icons>
+  - **Archivos:**
+    - Todos los `.png` de banderas en `ui/assets/BeamMP/flags/`
 
-- Assets: By Flagpedia
-  - **License:** completely free for commercial and non-commercial use (public domain)
-  - **Origin:** https://flagpedia.net/download/icons
-  - **Files:**
-    - All flag .png files within `ui/assets/BeamMP/flags/*`
+## No incluido en este zip
 
-## Contact Information
-For questions or more information, please contact [BeamMP](mailto:admin@beammp.com).
+A diferencia del zip de BeamMP upstream, **este repositorio no distribuye**:
+
+- Los recursos "Beamlings" (de VanilleVaschnille, con todos los derechos reservados): no se incluyen sus
+  `.dae`, mapas de color, `main.materials.json` ni el jbeam del unicycle.
+- Los iconos de marca de terceros (logo de Patreon, icono de Discord): se eliminaron del fork.
+- Las vistas previas `app.png` de las apps de HUD: se eliminaron del fork.
+
+## Contacto
+
+Para preguntas sobre licencias o avisos, abre un issue en <https://github.com/Cache180/mr-mp>.

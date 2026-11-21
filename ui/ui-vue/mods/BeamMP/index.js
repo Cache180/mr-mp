@@ -176,7 +176,7 @@ export async function onLoad() {
         }
       }
 
-      if (state.tosAccepted.value == false && to.name !== BEAMMP_TOS_ROUTE_NAME) {
+      if (state.mrTosAccepted.value == false && to.name !== BEAMMP_TOS_ROUTE_NAME) {
         return { name: BEAMMP_TOS_ROUTE_NAME }
       }
 
