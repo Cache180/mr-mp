@@ -8,7 +8,7 @@ var mdDialogVisible = false;
 // purifyReady pasa a true cuando el import() en segundo plano de DOMPurify resuelve.
 // Hasta entonces el saneado cae a texto plano (ver formatServerName / escapeHtml).
 var purifyReady = false;
-import('/ui/lib/ext/purify.min.js').then(function () { purifyReady = true; }).catch(function () {});
+import('/ui/lib/ext/purify.min.js').then(function () { purifyReady = true; }).catch(function (e) { console.warn('[MR] purify no cargo: ' + e); });
 app.directive('beammpSession', [function () {
 	return {
 		templateUrl: '/ui/modules/apps/BeamMP-Session/app.html',
@@ -41,6 +41,7 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 	// TEXTO, nunca como HTML. El puerto del proxy lo da el Lua del mod (sin tocarlo).
 	var transportTimer = null;
 	var transportFailLogged = false; // un solo log por racha de fallos
+	var transportInFlight = false;   // evita solapar consultas; se salta el tick si hay una en curso
 
 	const setTransportText = function(value) {
 		const el = document.getElementById("Session-Transport");
@@ -60,9 +61,13 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 	};
 
 	const queryTransport = function() {
+		if (transportInFlight) return; // ya hay una consulta en curso: saltar este tick
+		transportInFlight = true;
 		bngApi.engineLua('MPCoreNetwork.getProxyPort()', function(port) {
-			if (!port) { onTransportFail("sin puerto de proxy"); return; }
-			fetch('http://localhost:' + port + '/mr/transport', { cache: 'no-store' })
+			if (!port) { transportInFlight = false; onTransportFail("sin puerto de proxy"); return; }
+			const ctrl = new AbortController();
+			const timeout = setTimeout(function() { ctrl.abort(); }, 3000); // aborta la peticion a los 3 s
+			fetch('http://localhost:' + port + '/mr/transport', { cache: 'no-store', signal: ctrl.signal })
 				.then(function(r) {
 					if (!r.ok) throw new Error('HTTP ' + r.status);
 					return r.json();
@@ -72,7 +77,14 @@ app.controller("BeamMPSessionController", ['$scope', '$mdDialog', 'Settings', fu
 					const t = data && typeof data.transport === 'string' ? data.transport : null;
 					setTransportText(t === 'udp' || t === 'tcp' ? t : null); // cualquier otro valor -> ?
 				})
-				.catch(function(err) { onTransportFail(err && err.message ? err.message : String(err)); });
+				.catch(function(err) {
+					// un abort (timeout de 3 s) o cualquier otro error cuenta como fallo
+					onTransportFail(err && err.message ? err.message : String(err));
+				})
+				.finally(function() {
+					clearTimeout(timeout);
+					transportInFlight = false; // libera el guard en cualquier desenlace
+				});
 		});
 	};
 
